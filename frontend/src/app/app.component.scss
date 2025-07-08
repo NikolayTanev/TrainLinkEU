@@ -1,0 +1,1348 @@
+// Dark Theme - 3 Color Palette
+$dark-bg: #0f1419;        // Main dark background
+$accent-blue: #ff6b35;    // Primary accent color - athletic orange
+$text-light: #ffffff;     // Light text color
+
+// Supporting grays (derived from main colors)
+$dark-card: #1a1f2e;     // Card backgrounds
+$dark-border: #2a2f3e;   // Borders and separators
+$text-muted: #8892b0;    // Muted text
+
+// Typography
+$font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+// Global Styles
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: $font-family;
+  line-height: 1.6;
+  color: $text-light;
+  background-color: $dark-bg;
+  scroll-behavior: smooth;
+}
+
+// Navigation
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: rgba(15, 20, 25, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid $dark-border;
+  transition: all 0.3s ease;
+
+  .nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem;
+
+    @media (max-width: 768px) {
+      padding: 1rem;
+    }
+
+    // Extra small screens
+    @media (max-width: 400px) {
+      padding: 0.75rem 0.5rem;
+    }
+
+    // Minimum width devices
+    @media (max-width: 350px) {
+      padding: 0.5rem 0.4rem;
+    }
+
+    .nav-logo {
+      .logo-link {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 700;
+        font-size: 1.25rem;
+        color: $text-light;
+        text-decoration: none;
+        transition: color 0.3s ease;
+
+        .logo-image {
+          width: 28px;
+          height: 28px;
+          object-fit: contain;
+          flex-shrink: 0;
+        }
+
+        &:hover {
+          color: $accent-blue;
+        }
+
+        // Extra small screens
+        @media (max-width: 400px) {
+          font-size: 1rem;
+          gap: 0.4rem;
+
+          .logo-image {
+            width: 24px;
+            height: 24px;
+          }
+        }
+
+        // Minimum width devices
+        @media (max-width: 350px) {
+          font-size: 0.9rem;
+          gap: 0.3rem;
+
+          .logo-image {
+            width: 20px;
+            height: 20px;
+          }
+        }
+      }
+
+      .logo-icon {
+        font-size: 1.5rem;
+      }
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+
+      .nav-link {
+        text-decoration: none;
+        color: $text-muted;
+        font-weight: 500;
+        font-size: 0.875rem;
+        transition: color 0.3s ease;
+
+        &:hover {
+          color: $accent-blue;
+        }
+      }
+
+      @media (max-width: 768px) {
+        display: none; // Hide navigation links on mobile for cleaner look
+      }
+    }
+
+    .auth-buttons {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+
+      .signin-btn {
+        text-decoration: none;
+        color: $text-light;
+        font-weight: 600;
+        font-size: 0.875rem;
+        padding: 0.75rem 1.5rem;
+        border: 1px solid $dark-border;
+        border-radius: 25px;
+        transition: all 0.3s ease;
+
+        &:hover {
+          border-color: $accent-blue;
+          color: $accent-blue;
+          transform: translateY(-1px);
+        }
+      }
+
+      .signup-btn {
+        background: $accent-blue;
+        color: $dark-bg;
+        text-decoration: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 25px;
+        font-weight: 600;
+        font-size: 0.875rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 20px rgba(255, 107, 53, 0.3);
+        }
+      }
+
+      @media (max-width: 768px) {
+        gap: 0.5rem;
+
+        .signin-btn {
+          padding: 0.5rem 1rem;
+          font-size: 0.8rem;
+        }
+
+        .signup-btn {
+          padding: 0.5rem 1rem;
+          font-size: 0.8rem;
+        }
+      }
+
+      // Extra small screens (320px - 400px)
+      @media (max-width: 400px) {
+        gap: 0.25rem;
+
+        .signin-btn {
+          padding: 0.4rem 0.75rem;
+          font-size: 0.75rem;
+          border-radius: 18px;
+        }
+
+        .signup-btn {
+          padding: 0.4rem 0.75rem;
+          font-size: 0.75rem;
+          border-radius: 18px;
+        }
+      }
+
+      // Minimum width devices (320px)
+      @media (max-width: 350px) {
+        gap: 0.2rem;
+
+        .signin-btn {
+          padding: 0.35rem 0.6rem;
+          font-size: 0.7rem;
+          border-radius: 16px;
+        }
+
+        .signup-btn {
+          padding: 0.35rem 0.6rem;
+          font-size: 0.7rem;
+          border-radius: 16px;
+        }
+      }
+    }
+
+    .user-nav {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+
+      .user-info {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+
+        .user-avatar {
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          overflow: hidden;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: $accent-blue;
+
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+
+          .avatar-placeholder {
+            color: $dark-bg;
+            font-weight: 700;
+            font-size: 0.875rem;
+          }
+        }
+
+        .user-details {
+          display: flex;
+          flex-direction: column;
+          gap: 0.125rem;
+
+          .user-name {
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: $text-light;
+          }
+
+          .user-email {
+            font-size: 0.75rem;
+            color: $text-muted;
+          }
+        }
+      }
+
+      .dashboard-btn {
+        background: $accent-blue;
+        color: $dark-bg;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.75rem;
+        font-weight: 500;
+
+        &:hover {
+          transform: translateY(-1px);
+          box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+        }
+
+        svg {
+          stroke-width: 2;
+        }
+      }
+
+      .signout-btn {
+        background: transparent;
+        border: 1px solid $dark-border;
+        color: $text-light;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.75rem;
+        font-weight: 500;
+
+        &:hover {
+          border-color: $accent-blue;
+          color: $accent-blue;
+          transform: translateY(-1px);
+        }
+
+        svg {
+          stroke-width: 2;
+        }
+      }
+
+      @media (max-width: 768px) {
+        gap: 0.5rem;
+
+        .user-info {
+          gap: 0.5rem;
+
+          .user-details {
+            display: none; // Hide user details on mobile to save space
+          }
+        }
+
+        .dashboard-btn {
+          padding: 0.5rem;
+          font-size: 0.7rem;
+
+          span {
+            display: none; // Hide "Dashboard" text on mobile, keep only icon
+          }
+        }
+
+        .signout-btn {
+          padding: 0.5rem;
+          font-size: 0.7rem;
+
+          span {
+            display: none; // Hide "Sign Out" text on mobile, keep only icon
+          }
+        }
+      }
+
+      // Extra small screens for user nav
+      @media (max-width: 400px) {
+        gap: 0.25rem;
+
+        .user-info {
+          gap: 0.25rem;
+        }
+
+        .dashboard-btn {
+          padding: 0.4rem;
+          font-size: 0.65rem;
+        }
+
+        .signout-btn {
+          padding: 0.4rem;
+          font-size: 0.65rem;
+        }
+      }
+
+      // Minimum width devices for user nav
+      @media (max-width: 350px) {
+        gap: 0.2rem;
+
+        .dashboard-btn {
+          padding: 0.35rem;
+        }
+
+        .signout-btn {
+          padding: 0.35rem;
+        }
+      }
+    }
+  }
+}
+
+// Hero Section
+.hero {
+  background: $dark-bg;
+  color: $text-light;
+  padding: 100px 0 60px;
+  position: relative;
+  overflow: hidden;
+
+  .container {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .hero-content {
+    padding-right: 20px;
+    
+    h1 {
+      font-size: 3.2rem;
+      font-weight: 800;
+      margin-bottom: 24px;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: $text-light;
+
+      .highlight {
+        color: $accent-blue;
+      }
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      margin-bottom: 32px;
+      line-height: 1.6;
+      color: $text-muted;
+    }
+
+    .cta-button {
+      background: $accent-blue;
+      color: $dark-bg;
+      padding: 16px 32px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      display: inline-block;
+      transition: all 0.3s ease;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 212, 255, 0.4);
+      }
+    }
+  }
+
+  .hero-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 20px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 80px 0 40px;
+    
+    .container {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      text-align: center;
+    }
+
+    .hero-content {
+      padding-right: 0;
+      
+      h1 {
+        font-size: 2.4rem;
+      }
+    }
+
+    .hero-image {
+      padding-left: 0;
+    }
+  }
+}
+
+// App Mockup
+.app-mockup {
+  background: $dark-card;
+  border: 1px solid $dark-border;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  max-width: 360px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+  transform: perspective(1000px) rotateY(-8deg) rotateX(2deg);
+
+  .mockup-header {
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid $dark-border;
+
+    .mockup-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: $text-light;
+      margin-bottom: 4px;
+    }
+
+    .mockup-subtitle {
+      font-size: 0.85rem;
+      color: $text-muted;
+    }
+  }
+
+  .featured-video {
+    margin-bottom: 20px;
+
+    .video-thumbnail {
+      position: relative;
+      background: $accent-blue;
+      border-radius: 12px;
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+
+      .play-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .play-btn {
+          background: $text-light;
+          border-radius: 50%;
+          width: 36px;
+          height: 36px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 1rem;
+          color: $dark-bg;
+        }
+      }
+
+      .video-info {
+        position: absolute;
+        bottom: 10px;
+        left: 12px;
+        right: 12px;
+        color: $text-light;
+
+        .video-title {
+          font-weight: 600;
+          font-size: 0.8rem;
+          margin-bottom: 2px;
+        }
+
+        .video-duration {
+          font-size: 0.7rem;
+          opacity: 0.9;
+        }
+      }
+    }
+  }
+
+  .quick-schedule {
+    margin-bottom: 20px;
+
+    .schedule-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+
+      span {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: $text-light;
+      }
+
+      .streak-badge {
+        background: $accent-blue;
+        color: $dark-bg;
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 0.7rem;
+        font-weight: 600;
+      }
+    }
+
+    .week-calendar {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 6px;
+
+      .day {
+        text-align: center;
+
+        .day-label {
+          font-size: 0.7rem;
+          color: $text-muted;
+          margin-bottom: 4px;
+          font-weight: 500;
+        }
+
+        .day-workout {
+          padding: 6px 4px;
+          border-radius: 8px;
+          font-size: 0.65rem;
+          font-weight: 500;
+          border: 2px solid transparent;
+          transition: all 0.3s ease;
+
+          &.completed {
+            background: $accent-blue;
+            color: $dark-bg;
+          }
+
+          &.today {
+            background: $dark-bg;
+            color: $text-light;
+            border-color: $accent-blue;
+          }
+
+          &:not(.completed):not(.today) {
+            background: $dark-border;
+            color: $text-muted;
+          }
+        }
+      }
+    }
+  }
+
+  .trainer-categories {
+    .category-header {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: $text-light;
+      margin-bottom: 12px;
+    }
+
+    .trainer-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      .trainer-card {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 12px;
+        border-radius: 12px;
+        background: $dark-bg;
+        border: 1px solid $dark-border;
+
+        .trainer-avatar {
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          background: $accent-blue;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: $dark-bg;
+          font-weight: 600;
+          font-size: 0.8rem;
+          flex-shrink: 0;
+        }
+
+        .trainer-info {
+          flex: 1;
+
+          .trainer-name {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: $text-light;
+            margin-bottom: 1px;
+          }
+
+          .workout-count {
+            font-size: 0.7rem;
+            color: $text-muted;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Common Section Styles
+.section-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 4rem;
+
+  .section-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: $text-light;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  .section-subtitle {
+    font-size: 1.125rem;
+    color: $text-muted;
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
+// Features Section
+.features {
+  background: $dark-bg;
+  padding: 60px 0;
+  color: $text-light;
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    max-width: 1100px;
+    margin: 2rem auto 0;
+    gap: 2rem;
+
+    .feature-card {
+      background: $dark-card;
+      border: 1px solid $dark-border;
+      padding: 2.5rem 2rem;
+      border-radius: 20px;
+      text-align: center;
+
+      .feature-icon {
+        font-size: 1.5rem;
+        color: $accent-blue;
+        margin-bottom: 1rem;
+        
+        svg {
+          width: 1.5rem;
+          height: 1.5rem;
+        }
+      }
+
+      .feature-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 0.75rem;
+        color: $text-light;
+      }
+
+      .feature-description {
+        color: $text-muted;
+        line-height: 1.5;
+        font-size: 0.9rem;
+      }
+    }
+  }
+}
+
+// CTA Section
+.cta-section {
+  background: $dark-bg;
+  padding: 80px 0;
+  text-align: center;
+
+  .cta-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 20px;
+
+    .cta-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: $text-light;
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .cta-subtitle {
+      font-size: 1.125rem;
+      color: $text-muted;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    .cta-button-large {
+      background: $accent-blue;
+      color: $dark-bg;
+      border: none;
+      padding: 18px 40px;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 212, 255, 0.4);
+      }
+    }
+  }
+}
+
+// Footer
+.footer {
+  background: $dark-card;
+  color: $text-light;
+  padding: 60px 0 20px;
+  border-top: 1px solid $dark-border;
+
+  .footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      justify-content: center;
+
+      .logo-icon {
+        font-size: 1.5rem;
+      }
+
+      .logo-text {
+        font-weight: 700;
+        font-size: 1.25rem;
+        color: $text-light;
+      }
+    }
+
+    .footer-links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin-bottom: 2rem;
+
+      .footer-section {
+        text-align: center;
+
+        h4 {
+          color: $text-light;
+          font-weight: 600;
+          margin-bottom: 1rem;
+          font-size: 0.9rem;
+          letter-spacing: 0.5px;
+        }
+
+        a {
+          display: block;
+          color: $text-muted;
+          text-decoration: none;
+          margin-bottom: 0.5rem;
+          font-size: 0.875rem;
+          transition: color 0.3s ease;
+
+          &:hover {
+            color: $accent-blue;
+          }
+        }
+      }
+    }
+  }
+
+  .footer-bottom {
+    border-top: 1px solid $dark-border;
+    padding-top: 20px;
+    text-align: center;
+
+    p {
+      color: $text-muted;
+      font-size: 0.75rem;
+      letter-spacing: 0.5px;
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .navbar .nav-container {
+    padding: 1rem 1.5rem;
+
+    .nav-links {
+      gap: 1.5rem;
+    }
+  }
+
+  .hero {
+    padding: 120px 0 60px;
+
+    .hero-content h1 {
+      font-size: 2.5rem;
+    }
+  }
+
+  .section-header .section-title {
+    font-size: 2rem;
+  }
+
+  .features .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cta-section h2 {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar .nav-container {
+    .nav-links {
+      display: none; // Could implement mobile menu here
+    }
+  }
+
+  .hero {
+    padding: 100px 0 40px;
+
+    .hero-content h1 {
+      font-size: 2rem;
+    }
+  }
+
+  .section-container {
+    padding: 0 1.5rem;
+  }
+
+  .features .feature-card {
+    padding: 1.5rem;
+  }
+}
+
+// Smooth Animations
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.feature-card {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+// Video Integration Section
+.video-section {
+  background: $dark-card;
+  padding: 80px 0;
+  color: $text-light;
+
+  .video-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+
+    .video-text {
+      .section-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: $text-light;
+        margin-bottom: 1.5rem;
+        letter-spacing: -0.02em;
+      }
+
+      .section-description {
+        font-size: 1.125rem;
+        color: $text-muted;
+        line-height: 1.6;
+        margin-bottom: 2rem;
+      }
+
+      .video-features {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        .video-feature {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+          
+          .checkmark {
+            color: $accent-blue;
+            font-weight: bold;
+            font-size: 1.2rem;
+          }
+
+          span:last-child {
+            color: $text-light;
+            font-weight: 500;
+            font-size: 0.9rem;
+          }
+        }
+      }
+    }
+
+    .video-mockup {
+      display: flex;
+      justify-content: center;
+
+      .video-player {
+        background: $dark-bg;
+        border: 1px solid $dark-border;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        max-width: 320px;
+
+        .video-header {
+          background: $dark-card;
+          padding: 12px 16px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          border-bottom: 1px solid $dark-border;
+
+          .video-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: $text-light;
+          }
+
+          .video-time {
+            font-size: 0.75rem;
+            color: $text-muted;
+          }
+        }
+
+        .video-screen {
+          background: $accent-blue;
+          height: 180px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+
+          .play-button {
+            font-size: 2rem;
+            color: $dark-bg;
+            opacity: 0.8;
+          }
+        }
+
+        .video-controls {
+          padding: 12px 16px;
+
+          .progress-bar {
+            background: $dark-border;
+            height: 4px;
+            border-radius: 2px;
+            overflow: hidden;
+
+            .progress-fill {
+              background: $accent-blue;
+              height: 100%;
+              width: 25%;
+              border-radius: 2px;
+            }
+          }
+        }
+      }
+    }
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      text-align: center;
+
+      .video-text .section-title {
+        font-size: 2rem;
+      }
+    }
+  }
+}
+
+// How It Works Section
+.how-it-works {
+  background: $dark-bg;
+  padding: 80px 0;
+  color: $text-light;
+
+  .steps-container {
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+    margin-top: 4rem;
+
+    .step {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 40px;
+      align-items: center;
+      padding: 2rem 0;
+
+      &:nth-child(even) {
+        .step-image {
+          order: -1;
+        }
+      }
+
+      .step-number {
+        background: $accent-blue;
+        color: $dark-bg;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        font-weight: 800;
+        flex-shrink: 0;
+      }
+
+      .step-content {
+        max-width: 500px;
+
+        .step-title {
+          font-size: 1.5rem;
+          font-weight: 700;
+          color: $text-light;
+          margin-bottom: 1rem;
+          letter-spacing: -0.01em;
+        }
+
+        .step-description {
+          color: $text-muted;
+          line-height: 1.6;
+          font-size: 1rem;
+        }
+      }
+
+      .step-image {
+        display: flex;
+        justify-content: center;
+        
+        .app-interface, .calendar-mockup, .progress-mockup {
+          background: $dark-card;
+          border: 1px solid $dark-border;
+          border-radius: 12px;
+          padding: 20px;
+          min-width: 200px;
+          box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+
+          .interface-header, .calendar-header, .progress-header {
+            font-weight: 600;
+            color: $text-light;
+            margin-bottom: 16px;
+            font-size: 0.9rem;
+          }
+
+          .workout-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+
+            .workout-item {
+              background: $dark-bg;
+              border: 1px solid $dark-border;
+              padding: 8px 12px;
+              border-radius: 6px;
+              font-size: 0.8rem;
+              color: $text-muted;
+            }
+          }
+
+          .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+
+            .calendar-day {
+              width: 24px;
+              height: 24px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              border-radius: 4px;
+              font-size: 0.7rem;
+              color: $text-muted;
+
+              &.workout {
+                background: $accent-blue;
+                color: $dark-bg;
+                font-weight: 600;
+              }
+            }
+          }
+
+          .progress-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+
+            .stat {
+              text-align: center;
+
+              .stat-number {
+                font-size: 1.5rem;
+                font-weight: 700;
+                color: $accent-blue;
+              }
+
+              .stat-label {
+                font-size: 0.7rem;
+                color: $text-muted;
+                margin-top: 4px;
+              }
+            }
+          }
+        }
+      }
+
+      @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        text-align: center;
+
+        .step-image {
+          order: 0 !important;
+        }
+
+        .step-content .step-title {
+          font-size: 1.25rem;
+        }
+      }
+    }
+  }
+}
+
+// Testimonials Section
+.testimonials {
+  background: $dark-card;
+  padding: 80px 0;
+  color: $text-light;
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+
+    .testimonial-card {
+      background: $dark-bg;
+      border: 1px solid $dark-border;
+      padding: 2rem;
+      border-radius: 16px;
+
+      .testimonial-text {
+        font-size: 1rem;
+        line-height: 1.6;
+        color: $text-muted;
+        margin-bottom: 1.5rem;
+        font-style: italic;
+      }
+
+      .testimonial-author {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        .author-avatar {
+          width: 40px;
+          height: 40px;
+          background: $accent-blue;
+          color: $dark-bg;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 700;
+          font-size: 0.9rem;
+        }
+
+        .author-info {
+          .author-name {
+            font-weight: 600;
+            color: $text-light;
+            font-size: 0.9rem;
+            margin-bottom: 2px;
+          }
+
+          .author-duration {
+            font-size: 0.75rem;
+            color: $text-muted;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Responsive Design for Navigation
+@media (max-width: 768px) {
+  .navbar .nav-container {
+    padding: 1rem;
+
+    .user-nav {
+      .user-info .user-details {
+        display: none; // Hide user details on small screens
+      }
+
+      .signout-btn {
+        padding: 0.5rem;
+        font-size: 0.75rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar .nav-container {
+    .auth-buttons {
+      gap: 0.5rem;
+
+      .signin-btn, .signup-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.75rem;
+      }
+    }
+
+    .user-nav .signout-btn span {
+      display: none; // Hide "Sign Out" text on very small screens
+    }
+  }
+}

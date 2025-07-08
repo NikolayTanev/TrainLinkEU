@@ -1,0 +1,228 @@
+// Dark Theme Variables (matching main site)
+$dark-bg: #0f1419;
+$accent-blue: #ff6b35;
+$text-light: #ffffff;
+$dark-card: #1a1f2e;
+$dark-border: #2a2f3e;
+$text-muted: #8892b0;
+
+// Typography
+$font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+:host {
+  font-family: $font-family;
+  line-height: 1.6;
+  color: $text-light;
+}
+
+.auth-container {
+  min-height: 100vh;
+  background: $dark-bg;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.auth-card {
+  background: $dark-card;
+  border: 1px solid $dark-border;
+  border-radius: 20px;
+  padding: 3rem;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 2rem;
+
+  h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: $text-light;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  p {
+    color: $text-muted;
+    font-size: 0.9rem;
+  }
+}
+
+.auth-content {
+  .google-btn {
+    width: 100%;
+    background: $text-light;
+    color: #333;
+    border: none;
+    border-radius: 12px;
+    padding: 0.875rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 1.5rem;
+
+    &:hover:not(:disabled) {
+      background: #f8f9fa;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    svg {
+      flex-shrink: 0;
+    }
+  }
+
+  .divider {
+    position: relative;
+    text-align: center;
+    margin: 1.5rem 0;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: $dark-border;
+    }
+
+    span {
+      background: $dark-card;
+      color: $text-muted;
+      padding: 0 1rem;
+      font-size: 0.875rem;
+      position: relative;
+      z-index: 1;
+    }
+  }
+
+  .form-group {
+    margin-bottom: 1.5rem;
+
+    label {
+      display: block;
+      font-weight: 600;
+      color: $text-light;
+      margin-bottom: 0.5rem;
+      font-size: 0.875rem;
+    }
+
+    input {
+      width: 100%;
+      background: $dark-bg;
+      border: 1px solid $dark-border;
+      border-radius: 8px;
+      padding: 0.875rem 1rem;
+      color: $text-light;
+      font-size: 0.875rem;
+      transition: all 0.3s ease;
+
+      &::placeholder {
+        color: $text-muted;
+      }
+
+      &:focus {
+        outline: none;
+        border-color: $accent-blue;
+        box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+      }
+
+      &.error {
+        border-color: #e74c3c;
+        box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+      }
+    }
+
+    .error-message {
+      color: #e74c3c;
+      font-size: 0.75rem;
+      margin-top: 0.5rem;
+      display: block;
+    }
+  }
+
+  .global-error {
+    background: rgba(231, 76, 60, 0.1);
+    border: 1px solid #e74c3c;
+    border-radius: 8px;
+    padding: 0.75rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.875rem;
+  }
+
+  .submit-btn {
+    width: 100%;
+    background: $accent-blue;
+    color: $dark-bg;
+    border: none;
+    border-radius: 12px;
+    padding: 0.875rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 1.5rem;
+
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+  }
+
+  .auth-footer {
+    text-align: center;
+    
+    p {
+      color: $text-muted;
+      font-size: 0.875rem;
+      
+      a {
+        color: $accent-blue;
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.3s ease;
+
+        &:hover {
+          color: lighten($accent-blue, 10%);
+        }
+      }
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 480px) {
+  .auth-container {
+    padding: 1rem 0.5rem;
+  }
+
+  .auth-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .auth-header h1 {
+    font-size: 1.5rem;
+  }
+}

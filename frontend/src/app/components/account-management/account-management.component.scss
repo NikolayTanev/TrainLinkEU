@@ -1,0 +1,701 @@
+// Dark Theme Variables (matching main app)
+$dark-bg: #0f1419;
+$accent-blue: #ff6b35;
+$text-light: #ffffff;
+$dark-card: #1a1f2e;
+$dark-border: #2a2f3e;
+$text-muted: #8892b0;
+$error-color: #ef4444;
+$success-color: #10b981;
+$warning-color: #f59e0b;
+
+// Typography
+$font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+:host {
+  font-family: $font-family;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 2rem;
+  backdrop-filter: blur(4px);
+}
+
+.modal-content {
+  background: $dark-card;
+  border: 1px solid $dark-border;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 2rem 1rem;
+  border-bottom: 1px solid $dark-border;
+
+  h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: $text-light;
+  }
+
+  .close-btn {
+    background: transparent;
+    border: none;
+    color: $text-muted;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: $text-light;
+    }
+
+    svg {
+      stroke-width: 2;
+    }
+  }
+}
+
+.modal-body {
+  padding: 2rem;
+}
+
+.section {
+  margin-bottom: 2rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+
+    h3 {
+      margin: 0;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: $text-light;
+    }
+
+    .danger-warning {
+      font-size: 0.875rem;
+      color: $error-color;
+      font-weight: 500;
+    }
+  }
+}
+
+// Profile Section
+.profile-section {
+  .profile-info {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+
+    .profile-picture {
+      flex-shrink: 0;
+
+      img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid $dark-border;
+      }
+
+      .avatar-placeholder {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: $accent-blue;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: $dark-bg;
+        border: 3px solid $dark-border;
+      }
+    }
+
+    .user-details {
+      flex: 1;
+
+      .field-group {
+        margin-bottom: 1.5rem;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        label {
+          display: block;
+          font-size: 0.875rem;
+          font-weight: 600;
+          color: $text-light;
+          margin-bottom: 0.5rem;
+        }
+
+        .field-value {
+          display: block;
+          font-size: 1rem;
+          color: $text-muted;
+
+          &.readonly {
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid $dark-border;
+            border-radius: 8px;
+          }
+        }
+
+        .name-field {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0.75rem 1rem;
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid $dark-border;
+          border-radius: 8px;
+
+          .current-name {
+            font-size: 1rem;
+            color: $text-light;
+          }
+
+          .edit-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: transparent;
+            border: 1px solid $dark-border;
+            color: $text-muted;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.875rem;
+
+            &:hover {
+              background: rgba(255, 107, 53, 0.1);
+              border-color: $accent-blue;
+              color: $accent-blue;
+            }
+
+            svg {
+              stroke-width: 2;
+            }
+          }
+        }
+
+        .edit-name-field {
+          .name-input {
+            width: 100%;
+            background: $dark-bg;
+            border: 1px solid $dark-border;
+            color: $text-light;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+
+            &:focus {
+              outline: none;
+              border-color: $accent-blue;
+              box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+            }
+
+            &:disabled {
+              opacity: 0.6;
+              cursor: not-allowed;
+            }
+
+            &::placeholder {
+              color: $text-muted;
+            }
+          }
+
+          .edit-actions {
+            display: flex;
+            gap: 0.75rem;
+
+            .save-btn {
+              display: flex;
+              align-items: center;
+              gap: 0.5rem;
+              background: $accent-blue;
+              border: none;
+              color: $dark-bg;
+              padding: 0.75rem 1rem;
+              border-radius: 8px;
+              cursor: pointer;
+              transition: all 0.3s ease;
+              font-size: 0.875rem;
+              font-weight: 600;
+
+              &:disabled {
+                opacity: 0.6;
+                cursor: not-allowed;
+              }
+
+              &:not(:disabled):hover {
+                background: lighten($accent-blue, 10%);
+                transform: translateY(-1px);
+              }
+
+              .spinner {
+                width: 16px;
+                height: 16px;
+                border: 2px solid transparent;
+                border-top: 2px solid $dark-bg;
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+              }
+            }
+
+            .cancel-btn {
+              background: transparent;
+              border: 1px solid $dark-border;
+              color: $text-light;
+              padding: 0.75rem 1rem;
+              border-radius: 8px;
+              cursor: pointer;
+              transition: all 0.3s ease;
+              font-size: 0.875rem;
+
+              &:disabled {
+                opacity: 0.6;
+                cursor: not-allowed;
+              }
+
+              &:not(:disabled):hover {
+                background: rgba(255, 255, 255, 0.1);
+                border-color: $text-light;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Messages
+.messages {
+  margin: 1.5rem 0;
+
+  .error-message,
+  .success-message {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
+
+    svg {
+      stroke-width: 2;
+      flex-shrink: 0;
+    }
+  }
+
+  .error-message {
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: #fca5a5;
+  }
+
+  .success-message {
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    color: #6ee7b7;
+  }
+}
+
+// Danger Section
+.danger-section {
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 12px;
+  padding: 1.5rem;
+  background: rgba(239, 68, 68, 0.05);
+
+  // Success state styling
+  &:has(.delete-success) {
+    border-color: rgba(16, 185, 129, 0.3);
+    background: rgba(16, 185, 129, 0.05);
+  }
+
+  .danger-content {
+    .danger-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1.5rem;
+
+      .danger-info {
+        flex: 1;
+
+        h4 {
+          margin: 0 0 0.5rem 0;
+          font-size: 1rem;
+          font-weight: 600;
+          color: $text-light;
+        }
+
+        p {
+          margin: 0 0 0.5rem 0;
+          font-size: 0.875rem;
+          color: $text-muted;
+          line-height: 1.5;
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+
+          &.danger-warning {
+            color: $error-color;
+            font-weight: 600;
+            font-size: 0.8rem;
+            margin-top: 0.75rem;
+          }
+        }
+      }
+
+      .danger-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: $error-color;
+        border: none;
+        color: white;
+        padding: 0.75rem 1rem;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 0.875rem;
+        font-weight: 600;
+        flex-shrink: 0;
+
+        &:hover {
+          background: darken($error-color, 10%);
+          transform: translateY(-1px);
+        }
+
+        svg {
+          stroke-width: 2;
+        }
+      }
+    }
+  }
+
+  .delete-confirmation {
+    .confirmation-content {
+      text-align: center;
+
+      .confirmation-header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+
+        svg {
+          color: $error-color;
+          stroke-width: 2;
+        }
+
+        h4 {
+          margin: 0;
+          font-size: 1.25rem;
+          font-weight: 700;
+          color: $text-light;
+        }
+      }
+
+      p {
+        margin: 0 0 1rem 0;
+        font-size: 0.875rem;
+        color: $text-muted;
+        line-height: 1.6;
+      }
+
+      ul {
+        text-align: left;
+        margin: 1rem 0;
+        padding-left: 1.5rem;
+        color: $text-muted;
+        font-size: 0.875rem;
+
+        li {
+          margin-bottom: 0.5rem;
+        }
+      }
+
+      .confirmation-input {
+        margin: 1.5rem 0;
+
+        label {
+          display: block;
+          font-size: 0.875rem;
+          color: $text-light;
+          margin-bottom: 0.75rem;
+
+          strong {
+            color: $error-color;
+          }
+        }
+
+        .confirmation-text {
+          width: 100%;
+          max-width: 200px;
+          background: $dark-bg;
+          border: 1px solid $dark-border;
+          color: $text-light;
+          padding: 0.75rem 1rem;
+          border-radius: 8px;
+          font-size: 1rem;
+          text-align: center;
+
+          &:focus {
+            outline: none;
+            border-color: $error-color;
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+          }
+
+          &:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+          }
+
+          &::placeholder {
+            color: $text-muted;
+          }
+        }
+      }
+
+      .confirmation-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+
+        .confirm-delete-btn {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          background: $error-color;
+          border: none;
+          color: white;
+          padding: 0.875rem 1.25rem;
+          border-radius: 8px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          font-size: 0.875rem;
+          font-weight: 600;
+
+          &:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+          }
+
+          &:not(:disabled):hover {
+            background: darken($error-color, 10%);
+            transform: translateY(-1px);
+          }
+
+          .spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid transparent;
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+          }
+
+          svg {
+            stroke-width: 2;
+          }
+        }
+
+        .cancel-delete-btn {
+          background: transparent;
+          border: 1px solid $dark-border;
+          color: $text-light;
+          padding: 0.875rem 1.25rem;
+          border-radius: 8px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          font-size: 0.875rem;
+
+          &:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+          }
+
+          &:not(:disabled):hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: $text-light;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Delete Success State
+.delete-success {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+
+  .success-content {
+    text-align: center;
+    max-width: 400px;
+
+    .success-icon {
+      margin: 0 auto 1.5rem;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: rgba(16, 185, 129, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      svg {
+        color: #10b981;
+        stroke-width: 2;
+      }
+    }
+
+    h3 {
+      color: #10b981;
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    p {
+      color: #9ca3af;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    .redirect-message {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      color: #6b7280;
+      font-size: 0.875rem;
+
+      .countdown-spinner {
+        width: 16px;
+        height: 16px;
+        border: 2px solid rgba(16, 185, 129, 0.2);
+        border-left-color: #10b981;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+    }
+  }
+}
+
+// Animations
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .modal-overlay {
+    padding: 1rem;
+  }
+
+  .modal-header,
+  .modal-body {
+    padding: 1.5rem;
+  }
+
+  .profile-section .profile-info {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    .user-details {
+      width: 100%;
+    }
+  }
+
+  .danger-section .danger-content .danger-item {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+
+    .danger-btn {
+      justify-content: center;
+    }
+  }
+
+  .delete-confirmation .confirmation-actions {
+    flex-direction: column;
+    align-items: stretch;
+
+    .confirm-delete-btn,
+    .cancel-delete-btn {
+      justify-content: center;
+    }
+  }
+
+  .delete-success {
+    min-height: 150px;
+    padding: 1rem;
+
+    .success-content {
+      .success-icon {
+        width: 48px;
+        height: 48px;
+        
+        svg {
+          width: 32px;
+          height: 32px;
+        }
+      }
+
+      h3 {
+        font-size: 1.25rem;
+      }
+
+      p {
+        font-size: 0.875rem;
+        margin-bottom: 1.5rem;
+      }
+    }
+  }
+} 

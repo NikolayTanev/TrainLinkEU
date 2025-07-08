@@ -1,0 +1,67 @@
+<!-- Workout Player Backdrop -->
+<div class="player-backdrop" *ngIf="isOpen && workout" (click)="close()">
+  <!-- Player Content -->
+  <div class="player-content" (click)="$event.stopPropagation()">
+    
+    <!-- Player Header -->
+    <div class="player-header">
+      <div class="workout-info">
+        <h1>{{ workout.title }}</h1>
+        <div class="workout-meta">
+          <span class="trainer">{{ workout.trainer }}</span>
+          <span class="duration">{{ workout.duration / 60 }}min</span>
+          <span class="category">
+            {{ workout.category.icon }} {{ workout.category.name }}
+          </span>
+          <span class="difficulty" 
+                *ngIf="workout.difficulty"
+                [style.color]="getDifficultyColor(workout.difficulty)">
+            {{ workout.difficulty | titlecase }}
+          </span>
+        </div>
+      </div>
+      
+      <div class="player-controls">
+        <button class="close-btn" (click)="close()">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Video Player -->
+    <div class="video-container">
+      <div class="video-wrapper">
+        <iframe 
+          *ngIf="embedUrl"
+          [src]="embedUrl"
+          frameborder="0"
+          allowfullscreen
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          class="video-player"
+          loading="lazy">
+        </iframe>
+        
+        <!-- Loading State -->
+        <div class="video-loading" *ngIf="!embedUrl">
+          <div class="spinner"></div>
+          <span>Loading video...</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Finish Workout Button -->
+    <div class="workout-actions">
+      <button class="finish-btn" (click)="finishWorkout()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+          <polyline points="22,4 12,14.01 9,11.01"/>
+        </svg>
+        Finish Workout
+      </button>
+    </div>
+
+  </div>
+</div> 

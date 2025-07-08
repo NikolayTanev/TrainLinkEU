@@ -1,0 +1,333 @@
+<!-- Modal Backdrop -->
+<div class="modal-backdrop" *ngIf="isOpen" (click)="close()">
+  <!-- Modal Content -->
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <!-- Modal Header -->
+    <div class="modal-header">
+      <div class="header-content">
+        <h2 *ngIf="currentStep === 1">Add New Workout</h2>
+        <h2 *ngIf="currentStep === 2">Schedule Workout</h2>
+        
+        <!-- Step Indicator -->
+        <div class="step-indicator">
+          <div class="step" [class.active]="currentStep >= 1" [class.completed]="currentStep > 1">
+            <span class="step-number">1</span>
+            <span class="step-label">Workout Details</span>
+          </div>
+          <div class="step-divider"></div>
+          <div class="step" [class.active]="currentStep >= 2">
+            <span class="step-number">2</span>
+            <span class="step-label">Schedule</span>
+          </div>
+        </div>
+      </div>
+      
+      <button class="close-btn" (click)="close()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="modal-body">
+      
+      <!-- Step 1: Workout Details -->
+      <div class="step-content" *ngIf="currentStep === 1">
+        <form [formGroup]="workoutForm">
+          
+          <!-- Error Message -->
+          <div class="error-message" *ngIf="error">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="15" y1="9" x2="9" y2="15"/>
+              <line x1="9" y1="9" x2="15" y2="15"/>
+            </svg>
+            {{ error }}
+          </div>
+
+          <!-- YouTube URL Section -->
+          <div class="form-section">
+            <h3>Video Information</h3>
+            
+            <div class="form-group">
+              <label for="youtubeUrl">YouTube URL *</label>
+              <input 
+                type="url" 
+                id="youtubeUrl"
+                formControlName="youtubeUrl"
+                placeholder="https://www.youtube.com/watch?v=..."
+                (blur)="onYouTubeUrlChange()"
+                [class.error]="isFieldInvalid('youtubeUrl')"
+              >
+              <div class="field-error" *ngIf="isFieldInvalid('youtubeUrl')">
+                {{ getFieldError('youtubeUrl') }}
+              </div>
+            </div>
+
+            <!-- Loading State -->
+            <div class="loading-state" *ngIf="isLoading">
+              <div class="spinner"></div>
+              <span>Fetching video information...</span>
+            </div>
+
+            <!-- Video Preview -->
+            <div class="video-preview" *ngIf="videoInfo && !isLoading">
+              <div class="video-thumbnail">
+                <img [src]="videoInfo.thumbnailUrl" [alt]="videoInfo.title" />
+                <div class="play-overlay">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <polygon points="5,3 19,12 5,21 5,3"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="video-details">
+                <h4>{{ videoInfo.title }}</h4>
+                <p class="channel">{{ videoInfo.channelTitle }}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Essential Workout Details -->
+          <div class="form-section">
+            <h3>Workout Details</h3>
+            
+            <div class="form-group">
+              <label for="customTitle">Custom Title (optional)</label>
+              <input 
+                type="text" 
+                id="customTitle"
+                formControlName="customTitle"
+                placeholder="Override video title if needed"
+              >
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="category">Category *</label>
+                <select id="category" formControlName="category" [class.error]="isFieldInvalid('category')">
+                  <option value="">Select a category</option>
+                  <option *ngFor="let category of categories" [value]="category.id">
+                    {{ category.icon }} {{ category.name }}
+                  </option>
+                </select>
+                <div class="field-error" *ngIf="isFieldInvalid('category')">
+                  {{ getFieldError('category') }}
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="duration">Duration (minutes)</label>
+                <input 
+                  type="number" 
+                  id="duration"
+                  formControlName="duration"
+                  placeholder="30"
+                  min="1"
+                  max="300"
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Advanced Options Toggle -->
+          <div class="advanced-toggle">
+            <button type="button" class="toggle-btn" (click)="toggleAdvancedOptions()">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                   [style.transform]="showAdvancedOptions ? 'rotate(180deg)' : 'rotate(0deg)'">
+                <polyline points="6,9 12,15 18,9"/>
+              </svg>
+              {{ showAdvancedOptions ? 'Hide' : 'Show' }} Advanced Options
+            </button>
+          </div>
+
+          <!-- Advanced Options Section -->
+          <div class="advanced-options" [class.expanded]="showAdvancedOptions">
+            <div class="advanced-content">
+              
+              <!-- Difficulty -->
+              <div class="form-section">
+                <h3>Additional Details</h3>
+                
+                <div class="form-group">
+                  <label for="difficulty">Difficulty</label>
+                  <select id="difficulty" formControlName="difficulty">
+                    <option value="">Select difficulty</option>
+                    <option *ngFor="let difficulty of difficulties" [value]="difficulty">
+                      {{ difficulty | titlecase }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Equipment Section -->
+              <div class="form-section">
+                <h3>Equipment Needed</h3>
+                <div class="checkbox-grid">
+                  <label *ngFor="let equipment of equipmentOptions" class="checkbox-item">
+                    <input 
+                      type="checkbox" 
+                      [checked]="isEquipmentSelected(equipment)"
+                      (change)="onEquipmentChange(equipment, $event)"
+                    >
+                    <span class="checkbox-label">{{ equipment }}</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Body Parts Section -->
+              <div class="form-section">
+                <h3>Body Parts Targeted</h3>
+                <div class="checkbox-grid">
+                  <label *ngFor="let bodyPart of bodyPartOptions" class="checkbox-item">
+                    <input 
+                      type="checkbox" 
+                      [checked]="isBodyPartSelected(bodyPart)"
+                      (change)="onBodyPartChange(bodyPart, $event)"
+                    >
+                    <span class="checkbox-label">{{ bodyPart }}</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Notes Section -->
+              <div class="form-section">
+                <h3>Notes</h3>
+                <div class="form-group">
+                  <label for="notes">Additional Notes</label>
+                  <textarea 
+                    id="notes"
+                    formControlName="notes"
+                    placeholder="Any additional notes about this workout..."
+                    rows="3"
+                  ></textarea>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </form>
+      </div>
+
+      <!-- Step 2: Scheduling -->
+      <div class="step-content" *ngIf="currentStep === 2">
+        <div class="scheduling-content">
+          
+          <div class="schedule-intro">
+            <h3>When would you like to do this workout?</h3>
+            <p>Select the days and optionally set a time. You can skip this step to add the workout without scheduling.</p>
+          </div>
+
+          <!-- Days of Week Selector -->
+          <div class="form-section">
+            <h4>Select Days</h4>
+            <div class="days-selector">
+              <button 
+                *ngFor="let day of dayOptions" 
+                type="button"
+                class="day-btn"
+                [class.selected]="isDaySelected(day.value)"
+                (click)="toggleDay(day.value)"
+              >
+                <span class="day-short">{{ day.shortLabel }}</span>
+                <span class="day-full">{{ day.label }}</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Time and Repeat Options -->
+          <div class="form-section" *ngIf="selectedDays.length > 0">
+            <h4>Time & Repeat Options</h4>
+            <div class="time-repeat-container">
+              <div class="time-group">
+                <label for="scheduleTime" class="time-label">Set Time (Optional)</label>
+              <input 
+                type="time" 
+                id="scheduleTime"
+                [(ngModel)]="scheduleTime"
+                  class="time-input compact"
+              >
+                <small class="form-help">Leave empty for flexible timing</small>
+          </div>
+
+              <div class="repeat-group">
+              <label class="toggle-label">
+                <input 
+                  type="checkbox" 
+                  [(ngModel)]="repeatWeekly"
+                  class="toggle-checkbox"
+                >
+                <span class="toggle-switch"></span>
+                <span class="toggle-text">Repeat weekly</span>
+              </label>
+                <small class="form-help">Repeat every week on selected days</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Schedule Summary -->
+          <div class="schedule-summary" *ngIf="selectedDays.length > 0">
+            <h4>Schedule Summary</h4>
+            <div class="summary-content">
+              <div class="summary-item">
+                <strong>Days:</strong> {{ getSelectedDaysLabels() }}
+              </div>
+              <div class="summary-item" *ngIf="scheduleTime">
+                <strong>Time:</strong> {{ scheduleTime }}
+              </div>
+              <div class="summary-item">
+                <strong>Repeat:</strong> {{ repeatWeekly ? 'Every week' : 'One time only' }}
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Modal Footer -->
+    <div class="modal-footer">
+      <!-- Step 1 Footer -->
+      <div class="footer-content" *ngIf="currentStep === 1">
+        <button type="button" class="cancel-btn" (click)="close()">
+          Cancel
+        </button>
+        <button 
+          type="button" 
+          class="next-btn"
+          [disabled]="!isStep1Valid() || isLoading"
+          (click)="nextStep()"
+        >
+          Next: Schedule
+        </button>
+      </div>
+
+      <!-- Step 2 Footer -->
+      <div class="footer-content" *ngIf="currentStep === 2">
+        <button type="button" class="back-btn" (click)="previousStep()">
+          ‹ Back
+        </button>
+        <div class="right-buttons">
+          <button type="button" class="skip-btn" (click)="onSubmit()">
+            Skip Scheduling
+          </button>
+          <button 
+            type="button" 
+            class="add-btn"
+            (click)="onSubmit()"
+            [disabled]="isLoading"
+          >
+            <span *ngIf="!isLoading">Add Workout</span>
+            <span *ngIf="isLoading">
+              <div class="btn-spinner"></div>
+              Adding...
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

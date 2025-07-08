@@ -1,0 +1,307 @@
+// Dark Theme Variables (matching main site)
+$dark-bg: #0f1419;
+$accent-blue: #ff6b35;
+$text-light: #ffffff;
+$dark-card: #1a1f2e;
+$dark-border: #2a2f3e;
+$text-muted: #8892b0;
+
+// Mobile Header
+.mobile-header {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: $dark-card;
+  border-bottom: 1px solid $dark-border;
+  z-index: 1000;
+  padding: 0 1rem;
+  align-items: center;
+  justify-content: space-between;
+
+  .mobile-menu-btn {
+    background: none;
+    border: none;
+    color: $text-light;
+    padding: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: $accent-blue;
+    }
+
+    svg {
+      stroke-width: 2;
+    }
+  }
+
+  .mobile-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    .logo-image {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+    }
+
+    .logo-text {
+      font-size: 1rem;
+      font-weight: 700;
+      color: $text-light;
+    }
+  }
+
+  .mobile-user {
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: $accent-blue;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $dark-bg;
+      font-weight: 700;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+  }
+}
+
+// Mobile Overlay
+.mobile-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1500;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+
+  &.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+// Mobile Menu
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 280px;
+  height: 100vh;
+  background: $dark-card;
+  border-right: 1px solid $dark-border;
+  z-index: 2000;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+
+  &.active {
+    transform: translateX(0);
+  }
+
+  .mobile-menu-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid $dark-border;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .menu-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+
+      .logo-image {
+        width: 28px;
+        height: 28px;
+        object-fit: contain;
+      }
+
+      .logo-text {
+        font-size: 1.125rem;
+        font-weight: 700;
+        color: $text-light;
+      }
+    }
+
+    .mobile-close-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: $text-light;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background: rgba(255, 107, 53, 0.2);
+        color: $accent-blue;
+        transform: scale(1.1);
+      }
+
+      svg {
+        stroke-width: 2;
+      }
+    }
+  }
+
+  .mobile-menu-nav {
+    padding: 1rem 0;
+    flex: 1;
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 0.875rem;
+      padding: 0.875rem 1.5rem;
+      color: $text-muted;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border-left: 3px solid transparent;
+
+      svg {
+        stroke-width: 2;
+        flex-shrink: 0;
+      }
+
+      span {
+        font-weight: 500;
+        font-size: 0.9rem;
+      }
+
+      &:hover {
+        color: $text-light;
+        background: rgba(255, 107, 53, 0.1);
+      }
+
+      &.active {
+        color: $accent-blue;
+        background: rgba(255, 107, 53, 0.15);
+        border-left-color: $accent-blue;
+      }
+    }
+  }
+
+  .mobile-menu-footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid $dark-border;
+    background: $dark-bg;
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: 1px solid transparent;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 107, 53, 0.3);
+      }
+
+      .user-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: $accent-blue;
+        flex-shrink: 0;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        span {
+          color: $dark-bg;
+          font-weight: 700;
+          font-size: 0.9rem;
+        }
+      }
+
+      .user-details {
+        flex: 1;
+        min-width: 0;
+
+        .user-name {
+          display: block;
+          font-weight: 600;
+          font-size: 0.875rem;
+          color: $text-light;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .user-email {
+          display: block;
+          font-size: 0.75rem;
+          color: $text-muted;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+  }
+}
+
+// Responsive behavior
+@media (max-width: 768px) {
+  .mobile-header {
+    display: flex;
+  }
+
+  .mobile-overlay {
+    display: block;
+  }
+}
+
+// Style adjustments for pages using this component
+.mobile-nav-active {
+  .main-content,
+  .home-container,
+  .auth-container {
+    padding-top: 75px !important;
+  }
+} 

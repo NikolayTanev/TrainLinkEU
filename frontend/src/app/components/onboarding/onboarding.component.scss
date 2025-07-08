@@ -1,0 +1,515 @@
+// Dark Theme Variables (matching main app)
+$dark-bg: #0f1419;
+$accent-blue: #ff6b35;
+$text-light: #ffffff;
+$dark-card: #1a1f2e;
+$dark-border: #2a2f3e;
+$text-muted: #8892b0;
+$success-color: #10b981;
+$error-color: #ef4444;
+
+// Typography
+$font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+:host {
+  font-family: $font-family;
+}
+
+.onboarding-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 2rem;
+  backdrop-filter: blur(4px);
+}
+
+.onboarding-modal {
+  background: $dark-card;
+  border: 1px solid $dark-border;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow: hidden;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+}
+
+// Progress Header
+.onboarding-header {
+  padding: 2rem 2rem 1rem;
+  border-bottom: 1px solid $dark-border;
+
+  .progress-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      overflow: hidden;
+
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, $accent-blue, lighten($accent-blue, 10%));
+        border-radius: 4px;
+        transition: width 0.4s ease;
+      }
+    }
+
+    .progress-text {
+      font-size: 0.875rem;
+      color: $text-muted;
+      font-weight: 500;
+      text-align: center;
+    }
+  }
+}
+
+// Content Area
+.onboarding-content {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+.step-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  animation: fadeIn 0.5s ease;
+}
+
+// Welcome Section
+.welcome-section {
+  max-width: 400px;
+
+  .welcome-icon {
+    margin-bottom: 1.5rem;
+    
+    svg {
+      color: $accent-blue;
+      stroke-width: 1.5;
+    }
+  }
+
+  h2 {
+    color: $text-light;
+    margin-bottom: 1rem;
+    font-size: 2rem;
+    font-weight: 700;
+  }
+
+  p {
+    color: $text-muted;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+    font-size: 1rem;
+  }
+
+  .features-list {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    text-align: left;
+
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      border: 1px solid $dark-border;
+
+      svg {
+        color: $success-color;
+        stroke-width: 2;
+        flex-shrink: 0;
+      }
+
+      span {
+        color: $text-light;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+// Goal Section
+.goal-section {
+  width: 100%;
+  max-width: 500px;
+
+  .goal-icon {
+    margin-bottom: 1.5rem;
+    
+    svg {
+      color: $accent-blue;
+      stroke-width: 1.5;
+    }
+  }
+
+  h2 {
+    color: $text-light;
+    margin-bottom: 1rem;
+    font-size: 1.75rem;
+    font-weight: 700;
+  }
+
+  p {
+    color: $text-muted;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+    font-size: 1rem;
+  }
+}
+
+// Goal Options Grid
+.goal-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+
+  .goal-option {
+    padding: 1.5rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid $dark-border;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: lighten($dark-border, 10%);
+      transform: translateY(-2px);
+    }
+
+    &.selected {
+      background: rgba(255, 107, 53, 0.1);
+      border-color: $accent-blue;
+      box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.2);
+    }
+
+    .option-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: $text-light;
+      margin-bottom: 0.5rem;
+    }
+
+    .option-label {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: $text-light;
+      margin-bottom: 0.25rem;
+    }
+
+    .option-description {
+      font-size: 0.75rem;
+      color: $text-muted;
+      line-height: 1.4;
+    }
+  }
+}
+
+// Selected Summary
+.selected-summary {
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  margin-bottom: 2rem;
+
+  p {
+    margin: 0;
+    color: $text-light;
+    
+    &:first-child {
+      margin-bottom: 0.5rem;
+    }
+
+    strong {
+      color: $success-color;
+    }
+  }
+
+  .summary-description {
+    font-size: 0.875rem;
+    color: $text-muted;
+  }
+}
+
+// Final Summary
+.final-summary {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid $dark-border;
+  border-radius: 12px;
+
+  h3 {
+    color: $text-light;
+    margin-bottom: 1.5rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 1rem;
+
+    .summary-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      background: $dark-bg;
+      border: 1px solid $dark-border;
+      border-radius: 8px;
+
+      .summary-icon {
+        font-size: 1.5rem;
+      }
+
+      .summary-details {
+        display: flex;
+        flex-direction: column;
+
+        .summary-value {
+          font-size: 1.25rem;
+          font-weight: 700;
+          color: $accent-blue;
+        }
+
+        .summary-label {
+          font-size: 0.75rem;
+          color: $text-muted;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+      }
+    }
+  }
+
+  .summary-note {
+    font-size: 0.875rem;
+    color: $text-muted;
+    text-align: center;
+    margin: 0;
+    font-style: italic;
+  }
+}
+
+// Error Message
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: $error-color;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+  font-size: 0.875rem;
+
+  svg {
+    stroke-width: 2;
+    flex-shrink: 0;
+  }
+}
+
+// Footer Navigation
+.onboarding-footer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem 2rem;
+  border-top: 1px solid $dark-border;
+  background: rgba(255, 255, 255, 0.02);
+
+  .spacer {
+    flex: 1;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1.5rem;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+
+    svg {
+      stroke-width: 2;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    &:not(:disabled):hover {
+      transform: translateY(-1px);
+    }
+  }
+
+  .btn-primary {
+    background: $accent-blue;
+    color: $dark-bg;
+
+    &:not(:disabled):hover {
+      background: lighten($accent-blue, 5%);
+      box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+    }
+
+    &.finish-btn {
+      background: $success-color;
+      
+      &:not(:disabled):hover {
+        background: lighten($success-color, 5%);
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+      }
+
+      .spinner {
+        width: 16px;
+        height: 16px;
+        border: 2px solid transparent;
+        border-top: 2px solid $dark-bg;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+    }
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: $text-light;
+    border: 1px solid $dark-border;
+
+    &:not(:disabled):hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: $text-light;
+    }
+  }
+}
+
+// Animations
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Mobile Responsiveness
+@media (max-width: 768px) {
+  .onboarding-overlay {
+    padding: 1rem;
+  }
+
+  .onboarding-modal {
+    max-width: 100%;
+    border-radius: 16px;
+  }
+
+  .onboarding-header,
+  .onboarding-content,
+  .onboarding-footer {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .goal-options {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+
+    .goal-option {
+      padding: 1rem 0.75rem;
+
+      .option-value {
+        font-size: 1.5rem;
+      }
+    }
+  }
+
+  .final-summary {
+    .summary-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .onboarding-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+
+    .spacer {
+      display: none;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+      justify-content: center;
+      width: 100%;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .welcome-section {
+    h2 {
+      font-size: 1.5rem;
+    }
+  }
+
+  .goal-section {
+    h2 {
+      font-size: 1.5rem;
+    }
+  }
+
+  .goal-options {
+    grid-template-columns: 1fr;
+
+    .goal-option {
+      .option-value {
+        font-size: 1.75rem;
+      }
+    }
+  }
+} 

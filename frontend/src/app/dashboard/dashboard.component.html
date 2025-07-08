@@ -1,0 +1,1005 @@
+<div class="dashboard-layout">
+  <!-- Mobile Header -->
+  <div class="mobile-header">
+    <button class="mobile-menu-btn" (click)="toggleMobileSidebar()" aria-label="Toggle menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+    <div class="mobile-logo">
+      <img src="assets/logo.png" alt="TrainLink Logo" class="logo-image">
+      <span class="logo-text">TrainLink</span>
+    </div>
+    <div class="mobile-user">
+      <div class="user-avatar" (click)="openAccountModal()">
+        <img *ngIf="currentUser?.photoURL" [src]="currentUser?.photoURL" [alt]="currentUser?.displayName || 'User'">
+        <span *ngIf="!currentUser?.photoURL">{{ getInitials(currentUser?.displayName || currentUser?.email || '') }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay" [class.active]="isMobileSidebarOpen" (click)="closeMobileSidebar()"></div>
+
+  <!-- Side Navigation -->
+  <nav class="sidebar" [class.mobile-open]="isMobileSidebarOpen">
+    <div class="sidebar-header">
+      <div class="logo">
+        <img src="assets/logo.png" alt="TrainLink Logo" class="logo-image">
+        <span class="logo-text">TrainLink</span>
+      </div>
+      <button class="mobile-close-btn" (click)="closeMobileSidebar()" aria-label="Close menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="sidebar-nav">
+      <div 
+        class="nav-item" 
+        [class.active]="activeSection === 'dashboard'"
+        (click)="setActiveSection('dashboard')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <rect x="3" y="3" width="7" height="9"/>
+          <rect x="14" y="3" width="7" height="5"/>
+          <rect x="14" y="12" width="7" height="9"/>
+          <rect x="3" y="16" width="7" height="5"/>
+        </svg>
+        <span>Dashboard</span>
+      </div>
+
+      <div 
+        class="nav-item" 
+        [class.active]="activeSection === 'workouts'"
+        (click)="setActiveSection('workouts')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+        </svg>
+        <span>Workouts</span>
+      </div>
+
+      <div 
+        class="nav-item"
+        [class.active]="activeSection === 'calendar'"
+        (click)="setActiveSection('calendar')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+          <line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+        </svg>
+        <span>Calendar</span>
+      </div>
+
+      <!-- <div 
+        class="nav-item"
+        [class.active]="activeSection === 'programs'"
+        (click)="setActiveSection('programs')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <rect x="3" y="3" width="7" height="7"/>
+          <rect x="14" y="3" width="7" height="7"/>
+          <rect x="3" y="14" width="7" height="7"/>
+          <rect x="14" y="14" width="7" height="7"/>
+        </svg>
+        <span>Programs</span>
+      </div> -->
+
+      <div 
+        class="nav-item"
+        [class.active]="activeSection === 'log'"
+        (click)="setActiveSection('log')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14,2 14,8 20,8"/>
+          <line x1="16" y1="13" x2="8" y2="13"/>
+          <line x1="16" y1="17" x2="8" y2="17"/>
+          <polyline points="10,9 9,9 8,9"/>
+        </svg>
+        <span>Log</span>
+      </div>
+
+      <div 
+        class="nav-item"
+        [class.active]="activeSection === 'feedback'"
+        (click)="setActiveSection('feedback')">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          <path d="M13 8H7"/>
+          <path d="M17 12H7"/>
+        </svg>
+        <span>Feedback</span>
+      </div>
+    </div>
+
+    <!-- Sidebar Footer with User Account -->
+    <div class="sidebar-footer" *ngIf="currentUser">
+      <div class="user-account" (click)="openAccountModal()" title="Manage Account">
+        <div class="user-avatar">
+          <img *ngIf="currentUser.photoURL" [src]="currentUser.photoURL" [alt]="currentUser.displayName || 'User'">
+          <span *ngIf="!currentUser.photoURL" class="avatar-placeholder">
+            {{ getInitials(currentUser.displayName || currentUser.email || 'U') }}
+          </span>
+        </div>
+        <div class="user-details">
+          <span class="user-name">{{ currentUser.displayName || 'User' }}</span>
+          <span class="user-email">{{ currentUser.email }}</span>
+        </div>
+        <div class="account-settings-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+        </div>
+      </div>
+      
+      <!-- Buy me a coffee support link -->
+      <a href="https://coff.ee/trainlink" target="_blank" rel="noopener noreferrer" class="coffee-support">
+        <div class="coffee-icon">☕</div>
+        <span class="coffee-text">Support TrainLink</span>
+      </a>
+      
+      <button class="signout-btn" (click)="signOut()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16,17 21,12 16,7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+        Sign Out
+      </button>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <!-- Dynamic Content Sections -->
+    <div class="content-sections">
+      
+      <!-- Dashboard Overview Section -->
+      <section id="dashboard" class="content-section" [class.active]="activeSection === 'dashboard'">
+        <!-- Header with user greeting - ONLY on dashboard section -->
+        <header class="dashboard-header" *ngIf="currentUser">
+          <div class="header-content">
+            <h1>Welcome back, {{ currentUser.displayName || 'User' }}!</h1>
+            <p>{{ getTodayDate() }}</p>
+          </div>
+          <div class="header-stats">
+            <div class="stat">
+              <span class="stat-number">{{ getTotalWorkouts() }}</span>
+              <span class="stat-label">Workouts</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">{{ getCurrentStreak() }}</span>
+              <span class="stat-label">Day Streak</span>
+            </div>
+          </div>
+        </header>
+
+        <div class="dashboard-overview">
+          
+          <!-- Quick Actions 
+          <div class="quick-actions-card">
+            <div class="card-header">
+              <h3>Quick Actions</h3>
+            </div>
+            <div class="actions-grid">
+              <button class="action-card" (click)="setActiveSection('workouts')">
+                <div class="action-icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polygon points="10,8 16,12 10,16 10,8"/>
+                  </svg>
+                </div>
+                <span class="action-label">Start Workout</span>
+              </button>
+              <button class="action-card" (click)="openAddWorkoutModal()">
+                <div class="action-icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <line x1="12" y1="5" x2="12" y2="19"/>
+                    <line x1="5" y1="12" x2="19" y2="12"/>
+                  </svg>
+                </div>
+                <span class="action-label">Add Workout</span>
+              </button>
+              <button class="action-card" (click)="setActiveSection('calendar')">
+                <div class="action-icon">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6"/>
+                    <line x1="8" y1="2" x2="8" y2="6"/>
+                    <line x1="3" y1="10" x2="21" y2="10"/>
+                  </svg>
+                </div>
+                <span class="action-label">Calendar</span>
+              </button>
+            </div>
+          </div>
+        -->
+
+
+          <!-- Today's & Tomorrow's Workouts -->
+          <div class="workout-schedule-card">
+            <div class="card-header">
+              <h2>Workout Schedule</h2>
+              <span class="schedule-range">{{ getTodayDate() }} - {{ getTomorrowDate() }}</span>
+            </div>
+            <div class="workout-content">
+              <!-- Today's Section -->
+              <div class="day-section">
+                <div class="day-header">
+                  <h3>Today</h3>
+                  <span class="day-date">{{ getTodayDate() }}</span>
+                </div>
+                
+                <!-- Show scheduled workouts for today -->
+                <div class="scheduled-workouts" *ngIf="hasScheduledWorkoutsToday(); else noWorkoutToday">
+                  <div class="scheduled-workout" *ngFor="let workout of todaysWorkouts" (click)="openWorkoutPlayer(workout)">
+                    <div class="workout-thumbnail">
+                      <img [src]="workout.thumbnailUrl" [alt]="workout.title">
+                    </div>
+                    <div class="workout-details">
+                      <h4>{{ workout.title }}</h4>
+                      <p class="workout-trainer">{{ workout.trainer }}</p>
+                      <div class="workout-meta">
+                        <span class="workout-category">
+                          {{ workout.category.icon }} {{ workout.category.name }}
+                        </span>
+                        <span class="workout-duration">{{ formatDuration(workout.duration) }}</span>
+                        <span class="workout-time" *ngIf="workout.schedule?.time">
+                          • {{ getTodaysWorkoutTime(workout) }}
+                        </span>
+                      </div>
+                    </div>
+                    <div class="workout-actions">
+                      <button class="start-workout-btn">Start Now</button>
+                      <button class="modify-workout-btn" (click)="openWorkoutModifier(workout, $event)" title="Modify workout">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                          <path d="m18.5 2.5 a 2.828 2.828 0 1 1 4 4L13 16l-4 1 1-4 9.5-9.5z"/>
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- No workout scheduled for today -->
+                <ng-template #noWorkoutToday>
+                  <div class="no-workout-today">
+                    <div class="empty-message">
+                      <span class="empty-icon">🎯</span>
+                      <span>No workouts scheduled</span>
+                    </div>
+                  </div>
+                </ng-template>
+              </div>
+
+              <!-- Tomorrow's Section -->
+              <div class="day-section" *ngIf="hasScheduledWorkoutsTomorrow()">
+                <div class="day-header">
+                  <h3>Tomorrow</h3>
+                  <span class="day-date">{{ getTomorrowDate() }}</span>
+                </div>
+                
+                <div class="scheduled-workouts tomorrow">
+                  <div class="scheduled-workout preview" *ngFor="let workout of tomorrowsWorkouts">
+                    <div class="workout-thumbnail small">
+                      <img [src]="workout.thumbnailUrl" [alt]="workout.title">
+                    </div>
+                    <div class="workout-details">
+                      <h4>{{ workout.title }}</h4>
+                      <div class="workout-meta">
+                        <span class="workout-category">
+                          {{ workout.category.icon }} {{ workout.category.name }}
+                        </span>
+                        <span class="workout-duration">{{ formatDuration(workout.duration) }}</span>
+                        <span class="workout-time" *ngIf="workout.schedule?.time">
+                          • {{ getTodaysWorkoutTime(workout) }}
+                        </span>
+                      </div>
+                    </div>
+                    <div class="workout-status">
+                      <span class="status-badge">Scheduled</span>
+                      <button class="modify-workout-btn small" (click)="openWorkoutModifier(workout, $event)" title="Modify workout">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                          <path d="m18.5 2.5 a 2.828 2.828 0 1 1 4 4L13 16l-4 1 1-4 9.5-9.5z"/>
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Stats Grid -->
+          <div class="quick-stats">
+            <div class="stat-card">
+              <div class="stat-icon">🔥</div>
+              <div class="stat-content">
+                <h3>Current Streak</h3>
+                <div class="stat-value">{{ getCurrentStreak() }} days</div>
+                <div class="stat-subtitle">Keep it going!</div>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon">🎯</div>
+              <div class="stat-content">
+                <h3>This Week</h3>
+                <div class="stat-value">{{ getCompletedWorkoutsThisWeek() }}/{{ getWeeklyWorkoutGoal() }}</div>
+                <div class="stat-subtitle">workouts completed</div>
+              </div>
+              <button class="edit-goal-btn" (click)="openGoalsEditor()" title="Edit goals">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                  <path d="m18.5 2.5 a 2.828 2.828 0 1 1 4 4L13 16l-4 1 1-4 9.5-9.5z"/>
+                </svg>
+              </button>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon">⌚</div>
+              <div class="stat-content">
+                <h3>This Week</h3>
+                <div class="stat-value">{{ getCompletedMinutesThisWeek() }}/{{ getWeeklyMinuteGoal() }}</div>
+                <div class="stat-subtitle">minutes completed</div>
+              </div>
+              <button class="edit-goal-btn" (click)="openGoalsEditor()" title="Edit goals">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                  <path d="m18.5 2.5 a 2.828 2.828 0 1 1 4 4L13 16l-4 1 1-4 9.5-9.5z"/>
+                </svg>
+              </button>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon">⏱️</div>
+              <div class="stat-content">
+                <h3>Total Time</h3>
+                <div class="stat-value">{{ formatDuration(getTotalTimeThisMonth()) }}</div>
+                <div class="stat-subtitle">this month</div>
+              </div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-icon">📈</div>
+              <div class="stat-content">
+                <h3>Progress</h3>
+                <div class="stat-value">{{ getTotalWorkouts() }}</div>
+                <div class="stat-subtitle">total workouts</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Workout Modifier Modal -->
+      <div class="modal-overlay" *ngIf="isWorkoutModifierOpen" (click)="closeWorkoutModifier()">
+        <div class="workout-modifier-modal" (click)="$event.stopPropagation()">
+          <div class="modal-header">
+            <h3>Modify Workout</h3>
+            <button class="close-btn" (click)="closeWorkoutModifier()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
+            </button>
+          </div>
+
+          <div class="modal-content" *ngIf="selectedWorkoutForModification">
+            <div class="current-workout">
+              <h4>Current: {{ selectedWorkoutForModification.title }}</h4>
+              <p>{{ selectedWorkoutForModification.trainer }} • {{ formatDuration(selectedWorkoutForModification.duration) }}</p>
+            </div>
+
+            <div class="modification-options">
+              <div class="modification-section">
+                <h5>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="time-icon">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polyline points="12,6 12,12 16,14"/>
+                  </svg>
+                  Change Time
+                </h5>
+                                 <div class="time-section">
+                   <div class="time-presets left">
+                     <button class="preset-btn negative" (click)="addTimeMinutes(-60)" title="Subtract 1 hour">
+                       -1h
+                     </button>
+                     <button class="preset-btn negative" (click)="addTimeMinutes(-30)" title="Subtract 30 minutes">
+                       -30min
+                     </button>
+                     <button class="preset-btn negative" (click)="addTimeMinutes(-15)" title="Subtract 15 minutes">
+                       -15min
+                     </button>
+                   </div>
+                   
+                   <input 
+                     type="time" 
+                     class="time-input"
+                     [value]="getTimeForInput(selectedWorkoutForModification.schedule?.time)"
+                     (change)="onTimeChange($event)"
+                     #timeInput>
+                   
+                   <div class="time-presets right">
+                     <button class="preset-btn positive" (click)="addTimeMinutes(15)" title="Add 15 minutes">
+                       +15min
+                     </button>
+                     <button class="preset-btn positive" (click)="addTimeMinutes(30)" title="Add 30 minutes">
+                       +30min
+                     </button>
+                     <button class="preset-btn positive" (click)="addTimeMinutes(60)" title="Add 1 hour">
+                       +1h
+                     </button>
+                   </div>
+                 </div>
+              </div>
+
+              <div class="modification-section">
+                <h5>Replace with Different Workout</h5>
+                <div class="workout-options">
+                  <div class="workout-option" 
+                       *ngFor="let workout of getAvailableWorkoutsForSwap()" 
+                       (click)="selectReplacementWorkout(workout)"
+                       [class.selected]="selectedReplacementWorkout?.id === workout.id">
+                    <img [src]="workout.thumbnailUrl" [alt]="workout.title">
+                    <div class="option-details">
+                      <h6>{{ workout.title }}</h6>
+                      <p>{{ workout.trainer }} • {{ formatDuration(workout.duration) }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Subtle delete options -->
+            <div class="subtle-delete-options">
+              <button class="subtle-delete-btn" (click)="removeFromSchedule()" title="Remove from {{ getScheduleDayName() }}">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/>
+                </svg>
+                Remove from {{ getScheduleDayName() }}
+              </button>
+              <span class="delete-separator">•</span>
+              <button class="subtle-delete-btn permanent" (click)="deleteWorkoutPermanently()" title="Delete workout permanently">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <polyline points="3,6 5,6 21,6"/>
+                  <path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"/>
+                  <line x1="10" y1="11" x2="10" y2="17"/>
+                  <line x1="14" y1="11" x2="14" y2="17"/>
+                </svg>
+                Delete permanently
+              </button>
+            </div>
+
+            <div class="modal-actions">
+              <button class="cancel-btn" (click)="closeWorkoutModifier()">Cancel</button>
+              <button class="save-btn primary-action" (click)="saveWorkoutModification()" [disabled]="!hasModifications()">
+                {{ getActionButtonText() }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Workouts Section (Combined with Categories) -->
+      <section id="workouts" class="content-section" [class.active]="activeSection === 'workouts'">
+        <div class="section-header">
+          <h2>My Workouts</h2>
+          <button class="add-btn" (click)="openAddWorkoutModal()" [disabled]="isLoading">+ Add Workout</button>
+        </div>
+
+        <!-- Error Message -->
+        <div class="error-message" *ngIf="error">
+          <p>{{ error }}</p>
+          <button class="retry-btn" (click)="clearError(); refreshWorkouts()">Retry</button>
+        </div>
+
+        <!-- Loading State -->
+        <div class="loading-state" *ngIf="isLoading && workouts.length === 0">
+          <div class="spinner"></div>
+          <p>Loading your workouts...</p>
+        </div>
+        
+        <!-- Workouts Content -->
+        <div class="workouts-content">
+          <!-- Empty State -->
+          <div class="empty-state" *ngIf="workouts.length === 0">
+            <div class="empty-icon">🎥</div>
+            <h3>No workouts yet</h3>
+            <p>Start by adding your favorite YouTube workout videos</p>
+            <button class="primary-btn" (click)="openAddWorkoutModal()">Add Your First Workout</button>
+          </div>
+
+          <!-- Filter Controls -->
+          <div class="filter-controls" *ngIf="workouts.length > 0">
+            <div class="filter-info">
+              <span *ngIf="selectedCategoryFilter" class="active-filter">
+                Showing {{ filteredWorkouts.length }} {{ selectedCategoryFilter }} workouts
+                <button class="clear-filter-btn" (click)="clearCategoryFilter()" title="Clear filter">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                  </svg>
+                </button>
+              </span>
+              <span *ngIf="!selectedCategoryFilter" class="total-count">
+                {{ workouts.length }} total workouts
+              </span>
+            </div>
+          </div>
+
+          <!-- Workout Navigation -->
+          <div class="workout-navigation" *ngIf="workouts.length > 0 && workoutTotalPages > 1">
+            <button 
+              class="nav-arrow left" 
+              [disabled]="workoutCurrentPage === 1" 
+              (click)="previousWorkoutPage()"
+              title="Previous workouts">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <polyline points="15,18 9,12 15,6"/>
+              </svg>
+            </button>
+            
+            <div class="workout-grid-container">
+              <!-- Responsive Workouts Grid -->
+              <div class="workouts-grid responsive">
+                <div class="workout-card" *ngFor="let workout of paginatedWorkouts" (click)="openWorkoutPlayer(workout)">
+                  <div class="workout-thumbnail">
+                    <img [src]="workout.thumbnailUrl" [alt]="workout.title">
+                    <div class="workout-duration">{{ formatDuration(workout.duration) }}</div>
+                    <div class="play-overlay">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <polygon points="5,3 19,12 5,21 5,3"/>
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="workout-info">
+                    <h4>{{ workout.title }}</h4>
+                    <p class="workout-trainer">{{ workout.trainer }}</p>
+                    <div class="workout-meta">
+                      <span class="workout-category">
+                        {{ workout.category.icon }} {{ workout.category.name }}
+                      </span>
+                      <span class="workout-difficulty" *ngIf="workout.difficulty">
+                        {{ workout.difficulty | titlecase }}
+                      </span>
+                    </div>
+                  </div>
+                  <!-- Favorite Button -->
+                  <button class="favorite-btn" 
+                          (click)="toggleWorkoutFavorite(workout, $event)" 
+                          [class.favorited]="workout.isFavorite"
+                          title="Add to favorites">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26 12,2"/>
+                    </svg>
+                  </button>
+                  
+                  <!-- Delete Button -->
+                  <button class="delete-btn" (click)="deleteWorkout(workout, $event)" title="Delete workout">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <polyline points="3,6 5,6 21,6"/>
+                      <path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"/>
+                      <line x1="10" y1="11" x2="10" y2="17"/>
+                      <line x1="14" y1="11" x2="14" y2="17"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <button 
+              class="nav-arrow right" 
+              [disabled]="workoutCurrentPage === workoutTotalPages" 
+              (click)="nextWorkoutPage()"
+              title="Next workouts">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <polyline points="9,18 15,12 9,6"/>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Single Page Display (when no pagination needed) -->
+          <div class="workouts-grid single-page" *ngIf="workouts.length > 0 && workoutTotalPages <= 1">
+            <div class="workout-card" *ngFor="let workout of paginatedWorkouts" (click)="openWorkoutPlayer(workout)">
+              <div class="workout-thumbnail">
+                <img [src]="workout.thumbnailUrl" [alt]="workout.title">
+                <div class="workout-duration">{{ formatDuration(workout.duration) }}</div>
+                <div class="play-overlay">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <polygon points="5,3 19,12 5,21 5,3"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="workout-info">
+                <h4>{{ workout.title }}</h4>
+                <p class="workout-trainer">{{ workout.trainer }}</p>
+                <div class="workout-meta">
+                  <span class="workout-category">
+                    {{ workout.category.icon }} {{ workout.category.name }}
+                  </span>
+                  <span class="workout-difficulty" *ngIf="workout.difficulty">
+                    {{ workout.difficulty | titlecase }}
+                  </span>
+                </div>
+              </div>
+              <!-- Favorite Button -->
+              <button class="favorite-btn" 
+                      (click)="toggleWorkoutFavorite(workout, $event)" 
+                      [class.favorited]="workout.isFavorite"
+                      title="Add to favorites">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26 12,2"/>
+                </svg>
+              </button>
+              
+              <!-- Delete Button -->
+              <button class="delete-btn" (click)="deleteWorkout(workout, $event)" title="Delete workout">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <polyline points="3,6 5,6 21,6"/>
+                  <path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"/>
+                  <line x1="10" y1="11" x2="10" y2="17"/>
+                  <line x1="14" y1="11" x2="14" y2="17"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Pagination Info -->
+          <div class="pagination-info" *ngIf="workouts.length > 0 && workoutTotalPages > 1">
+            Page {{ workoutCurrentPage }} of {{ workoutTotalPages }} 
+            ({{ filteredWorkouts.length }} {{ selectedCategoryFilter || 'total' }} workouts)
+          </div>
+        </div>
+
+        <!-- Categories Section -->
+        <div class="categories-section">
+          <div class="section-subheader">
+            <h3>Workout Categories</h3>
+            <p class="category-hint">Click on a category to filter workouts</p>
+          </div>
+          <div class="category-grid">
+            <div class="category-card clickable" 
+                 *ngFor="let categoryGroup of getWorkoutsByCategory()"
+                 [class.active]="selectedCategoryFilter === categoryGroup.category.id"
+                 (click)="onCategoryClick(categoryGroup)"
+                 title="Filter by {{ categoryGroup.category.name }}">
+              <div class="category-icon">{{ categoryGroup.category.icon }}</div>
+              <h4>{{ categoryGroup.category.name }}</h4>
+              <p>{{ categoryGroup.workouts.length }} workouts</p>
+            </div>
+            <!-- Default empty categories if no workouts exist -->
+            <ng-container *ngIf="workouts.length === 0">
+              <div class="category-card">
+                <div class="category-icon">💪</div>
+                <h4>Strength</h4>
+                <p>0 workouts</p>
+              </div>
+              <div class="category-card">
+                <div class="category-icon">❤️</div>
+                <h4>Cardio</h4>
+                <p>0 workouts</p>
+              </div>
+              <div class="category-card">
+                <div class="category-icon">🧘‍♀️</div>
+                <h4>Yoga</h4>
+                <p>0 workouts</p>
+              </div>
+              <div class="category-card">
+                <div class="category-icon">⚡</div>
+                <h4>HIIT</h4>
+                <p>0 workouts</p>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </section>
+
+      <!-- Calendar Section -->
+      <section id="calendar" class="content-section" [class.active]="activeSection === 'calendar'">
+        <div class="section-header">
+          <h2>Workout Calendar</h2>
+          <div class="calendar-controls">
+            <button class="calendar-nav" (click)="previousMonth()">‹</button>
+            <span class="current-month">{{ getCurrentMonthName() }}</span>
+            <button class="calendar-nav" (click)="nextMonth()">›</button>
+            <button class="today-btn" (click)="goToCurrentMonth()">Today</button>
+          </div>
+        </div>
+        <div class="calendar-content">
+          <!-- Calendar Grid -->
+          <div class="calendar-grid">
+            <!-- Day Headers -->
+            <div class="calendar-header">
+              <div class="day-header">Sun</div>
+              <div class="day-header">Mon</div>
+              <div class="day-header">Tue</div>
+              <div class="day-header">Wed</div>
+              <div class="day-header">Thu</div>
+              <div class="day-header">Fri</div>
+              <div class="day-header">Sat</div>
+            </div>
+            
+            <!-- Calendar Days -->
+            <div class="calendar-body">
+              <div 
+                class="calendar-day"
+                *ngFor="let day of calendarDays"
+                [class.current-month]="day.isCurrentMonth"
+                [class.today]="day.isToday"
+                [class.has-workouts]="day.workouts.length > 0"
+                (click)="onCalendarDayClick(day)">
+                
+                <div class="day-number">{{ day.date.getDate() }}</div>
+                
+                                 <!-- Workout list for all days -->
+                 <div class="day-workouts" *ngIf="day.workouts.length > 0">
+                   <!-- Show first 2 workouts as items -->
+                   <div 
+                     class="day-workout"
+                     *ngFor="let workout of day.workouts.slice(0, 2)"
+                     (click)="openWorkoutPlayer(workout); $event.stopPropagation()"
+                     [title]="workout.title + (workout.schedule?.time ? ' at ' + workout.schedule?.time : '')">
+                     <div class="workout-time" *ngIf="workout.schedule?.time">{{ workout.schedule?.time }}</div>
+                     <div class="workout-title">{{ getTruncatedTitle(workout.title, 25) }}</div>
+                     <div class="workout-category">{{ workout.category.icon }}</div>
+                   </div>
+                   
+                   <!-- Show remaining workouts as compact dots -->
+                   <div class="workout-overflow" *ngIf="day.workouts.length > 2">
+                     <div class="workout-dots">
+                       <div 
+                         class="workout-dot"
+                         *ngFor="let workout of day.workouts.slice(2, 5)"
+                         [style.background-color]="workout.category.color || '#ff6b35'"
+                         [title]="workout.title + (workout.schedule?.time ? ' at ' + workout.schedule?.time : '')"
+                         (click)="openWorkoutPlayer(workout); $event.stopPropagation()">
+                       </div>
+                       <div class="workout-more" *ngIf="day.workouts.length > 5">
+                         +{{ day.workouts.length - 5 }}
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Calendar Legend -->
+          <div class="calendar-legend">
+            <div class="legend-item">
+              <div class="legend-dot" style="background: #ff6b35;"></div>
+              <span>Strength</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot" style="background: #4CAF50;"></div>
+              <span>Cardio</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot" style="background: #9C27B0;"></div>
+              <span>Yoga</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot" style="background: #FF9800;"></div>
+              <span>HIIT</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Log Section -->
+      <section id="log" class="content-section" [class.active]="activeSection === 'log'">
+        <div class="section-header">
+          <h2>Workout Log</h2>
+          <div class="log-stats" *ngIf="hasCompletions()">
+            <div class="stat">
+              <span class="stat-number">{{ completionLog.length }}</span>
+              <span class="stat-label">Total Completions</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="log-content" *ngIf="hasCompletions(); else emptyState">
+          <div class="completion-list">
+            <div class="completion-entry" *ngFor="let entry of paginatedCompletionLog">
+              <div class="completion-workout">
+                <img [src]="entry.workout.thumbnailUrl" [alt]="entry.workout.title" class="completion-thumbnail">
+                <div class="completion-details">
+                  <h4 class="completion-title">{{ entry.workout.title }}</h4>
+                  <p class="completion-trainer">{{ entry.workout.trainer }}</p>
+                  <div class="completion-meta">
+                    <span class="completion-category">
+                      {{ entry.workout.category.icon }} {{ entry.workout.category.name }}
+                    </span>
+                    <span class="completion-duration">{{ formatDuration(entry.workout.duration) }}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="completion-info">
+                <div class="completion-date">{{ getCompletionDate(entry.completion) }}</div>
+                <div class="completion-time">{{ getCompletionTime(entry.completion) }}</div>
+                <div class="completion-badge">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                    <polyline points="22,4 12,14.01 9,11.01"/>
+                  </svg>
+                  Completed
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Pagination Controls -->
+          <div class="pagination-controls" *ngIf="totalPages > 1">
+            <div class="pagination-info">
+              Showing {{ (currentPage - 1) * itemsPerPage + 1 }}-{{ getCurrentPageEndIndex() }} of {{ completionLog.length }} completions
+            </div>
+            <div class="pagination-buttons">
+              <button 
+                class="pagination-btn" 
+                [disabled]="currentPage === 1" 
+                (click)="previousPage()"
+                title="Previous page">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <polyline points="15,18 9,12 15,6"/>
+                </svg>
+                Previous
+              </button>
+              
+              <div class="page-numbers">
+                <button 
+                  *ngFor="let page of getPaginationRange()" 
+                  class="page-btn" 
+                  [class.active]="page === currentPage"
+                  (click)="goToPage(page)">
+                  {{ page }}
+                </button>
+              </div>
+              
+              <button 
+                class="pagination-btn" 
+                [disabled]="currentPage === totalPages" 
+                (click)="nextPage()"
+                title="Next page">
+                Next
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <polyline points="9,18 15,12 9,6"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <ng-template #emptyState>
+        <div class="log-content">
+          <div class="empty-state">
+            <div class="empty-icon">📝</div>
+            <h3>No workout history yet</h3>
+            <p>Complete your first workout to see it here</p>
+          </div>
+        </div>
+        </ng-template>
+      </section>
+
+      <!-- Programs Section -->
+      <section id="programs" class="content-section" [class.active]="activeSection === 'programs'">
+        <div class="section-header">
+          <h2>Training Programs</h2>
+          <div class="development-badge">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+              <line x1="12" y1="9" x2="12" y2="13"/>
+              <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+            Under Development
+          </div>
+        </div>
+        
+        <div class="programs-content">
+          <div class="development-preview">
+            <div class="preview-header">
+              <div class="preview-icon">🏋️‍♀️</div>
+              <h3>Training Programs Coming Soon!</h3>
+              <p class="preview-subtitle">Structured workout plans to achieve your fitness goals</p>
+            </div>
+            
+            <div class="feature-grid">
+              <div class="feature-card">
+                <div class="feature-icon">📅</div>
+                <h4>Weekly Schedules</h4>
+                <p>Create structured workout plans with specific days and times for optimal training consistency</p>
+              </div>
+              
+              <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h4>Goal-Oriented Programs</h4>
+                <p>Design programs for specific fitness goals like strength building, weight loss, or endurance</p>
+              </div>
+              
+              <div class="feature-card">
+                <div class="feature-icon">📈</div>
+                <h4>Progressive Training</h4>
+                <p>Build workout progressions that adapt and evolve as you get stronger and more experienced</p>
+              </div>
+              
+              <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h4>Quick Program Starts</h4>
+                <p>Jump into pre-built program templates or create custom routines that fit your schedule</p>
+              </div>
+              
+              <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h4>Progress Tracking</h4>
+                <p>Monitor your program completion, track improvements, and see your fitness journey unfold</p>
+              </div>
+              
+              <div class="feature-card">
+                <div class="feature-icon">🔄</div>
+                <h4>Flexible Modifications</h4>
+                <p>Adjust programs on-the-fly, swap workouts, and modify schedules without losing progress</p>
+              </div>
+            </div>
+            
+            <div class="preview-footer">
+              <div class="coming-soon-message">
+                <span class="status-indicator"></span>
+                This feature is currently in development and will be available in a future update
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Feedback Section -->
+      <section id="feedback" class="content-section" [class.active]="activeSection === 'feedback'">
+        <app-feedback></app-feedback>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<!-- Add Workout Modal -->
+<app-add-workout-modal 
+  [isOpen]="isAddWorkoutModalOpen"
+  (closeModal)="closeAddWorkoutModal()"
+  (workoutAdded)="onWorkoutAdded($event)">
+</app-add-workout-modal>
+
+<!-- Workout Player -->
+<app-workout-player
+  [isOpen]="isWorkoutPlayerOpen"
+  [workout]="currentWorkout"
+  (closePlayer)="closeWorkoutPlayer()"
+  (workoutCompleted)="completeWorkout($event)">
+</app-workout-player>
+
+<!-- Account Management Modal -->
+<app-account-management
+  [isOpen]="isAccountModalOpen"
+  [currentUser]="currentUser"
+  (closeModal)="closeAccountModal()">
+</app-account-management>
+
+<!-- Onboarding Modal -->
+<app-onboarding
+  *ngIf="isOnboardingOpen"
+  (onboardingCompleted)="onOnboardingCompleted()">
+</app-onboarding>
+
+<!-- Goals Editor Modal -->
+<app-goals-editor
+  [isOpen]="isGoalsEditorOpen"
+  [currentGoals]="userGoals"
+  (closeModal)="closeGoalsEditor()"
+  (goalsUpdated)="onGoalsUpdated($event)">
+</app-goals-editor>
+
+

@@ -1,0 +1,109 @@
+<div class="modal-overlay" *ngIf="isOpen" (click)="onOverlayClick($event)">
+  <div class="modal-content">
+    <!-- Header -->
+    <div class="modal-header">
+      <h2>Edit Your Goals</h2>
+      <button class="close-btn" (click)="close()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Content -->
+    <div class="modal-body">
+      
+      <!-- Weekly Workout Goal -->
+      <div class="goal-section">
+        <div class="goal-header">
+          <div class="goal-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 6v6l4 2"/>
+            </svg>
+          </div>
+          <div class="goal-info">
+            <h3>Weekly Workout Goal</h3>
+            <p>How many workouts would you like to complete each week?</p>
+          </div>
+        </div>
+        
+        <div class="goal-options">
+          <div 
+            class="goal-option" 
+            *ngFor="let option of workoutGoalOptions"
+            [class.selected]="weeklyWorkoutGoal === option.value"
+            (click)="selectWorkoutGoal(option.value)">
+            <div class="option-value">{{ option.value === 6 ? '6+' : option.value }}</div>
+            <div class="option-label">{{ option.label }}</div>
+            <div class="option-description">{{ option.description }}</div>
+          </div>
+        </div>
+
+        <div class="selected-summary" *ngIf="weeklyWorkoutGoal > 0">
+          <p><strong>Selected:</strong> {{ weeklyWorkoutGoal === 6 ? '6+' : weeklyWorkoutGoal }} workouts per week</p>
+          <p class="summary-description">{{ getSelectedWorkoutGoalDescription() }}</p>
+        </div>
+      </div>
+
+      <!-- Weekly Minutes Goal -->
+      <div class="goal-section">
+        <div class="goal-header">
+          <div class="goal-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12,6 12,12 16,14"/>
+            </svg>
+          </div>
+          <div class="goal-info">
+            <h3>Weekly Minutes Goal</h3>
+            <p>How many minutes of exercise would you like to complete each week?</p>
+          </div>
+        </div>
+        
+        <div class="goal-options">
+          <div 
+            class="goal-option" 
+            *ngFor="let option of minuteGoalOptions"
+            [class.selected]="weeklyMinuteGoal === option.value"
+            (click)="selectMinuteGoal(option.value)">
+            <div class="option-value">{{ option.value === 450 ? '450+' : option.value }}</div>
+            <div class="option-label">{{ option.label }}</div>
+            <div class="option-description">{{ option.description }}</div>
+          </div>
+        </div>
+
+        <div class="selected-summary" *ngIf="weeklyMinuteGoal > 0">
+          <p><strong>Selected:</strong> {{ weeklyMinuteGoal === 450 ? '450+' : weeklyMinuteGoal }} minutes per week</p>
+          <p class="summary-description">{{ getSelectedMinuteGoalDescription() }}</p>
+        </div>
+      </div>
+
+      <!-- Error Message -->
+      <div class="error-message" *ngIf="error">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="15" y1="9" x2="9" y2="15"/>
+          <line x1="9" y1="9" x2="15" y2="15"/>
+        </svg>
+        {{ error }}
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="modal-footer">
+      <button class="btn-secondary" (click)="close()" [disabled]="isLoading">
+        Cancel
+      </button>
+      <button 
+        class="btn-primary" 
+        (click)="saveGoals()"
+        [disabled]="!hasChanges() || isLoading">
+        <div class="spinner" *ngIf="isLoading"></div>
+        <span *ngIf="!isLoading">Save Goals</span>
+        <span *ngIf="isLoading">Saving...</span>
+      </button>
+    </div>
+  </div>
+</div> 

@@ -1,0 +1,139 @@
+<div class="modal-backdrop" *ngIf="isOpen" (click)="close()">
+  <div class="modal-container" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <div class="header-content">
+        <h2>Create Training Program</h2>
+      </div>
+      <button class="close-btn" (click)="close()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <!-- Step 1: Program Details -->
+      <div class="form-section">
+        <h3>Program Details</h3>
+        <div class="form-group">
+          <label for="programName">Program Name *</label>
+          <input 
+            type="text" 
+            id="programName"
+            [(ngModel)]="programName"
+            placeholder="e.g., 4-Week Strength Builder"
+            maxlength="100">
+        </div>
+
+        <div class="form-group">
+          <label for="programDescription">Description</label>
+          <textarea 
+            id="programDescription"
+            [(ngModel)]="programDescription"
+            placeholder="Describe your training program and goals..."
+            rows="3"
+            maxlength="500"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="programDuration">Duration (weeks)</label>
+          <select id="programDuration" [(ngModel)]="programDuration">
+            <option value="1">1 week</option>
+            <option value="2">2 weeks</option>
+            <option value="4">4 weeks</option>
+            <option value="6">6 weeks</option>
+            <option value="8">8 weeks</option>
+            <option value="12">12 weeks</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Step 2: Select Workouts -->
+      <div class="form-section">
+        <h3>Select Workouts</h3>
+        <p class="section-description">Choose the workouts you want to include in this program</p>
+        
+        <div class="workout-selection" *ngIf="workouts.length > 0; else noWorkouts">
+          <div 
+            class="workout-item"
+            *ngFor="let workout of workouts"
+            [class.selected]="isWorkoutSelected(workout.id)"
+            (click)="toggleWorkoutSelection(workout.id)">
+            <div class="workout-checkbox">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" *ngIf="isWorkoutSelected(workout.id)">
+                <polyline points="20,6 9,17 4,12"/>
+              </svg>
+            </div>
+            <img [src]="workout.thumbnailUrl" [alt]="workout.title" class="workout-thumbnail">
+            <div class="workout-details">
+              <h4>{{ workout.title }}</h4>
+              <p>{{ workout.trainer }}</p>
+              <div class="workout-meta">
+                <span class="workout-category">{{ workout.category.icon }} {{ workout.category.name }}</span>
+                <span class="workout-duration">{{ formatDuration(workout.duration) }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <ng-template #noWorkouts>
+          <div class="empty-state">
+            <p>No workouts available. Add some workouts first to create a program.</p>
+          </div>
+        </ng-template>
+
+        <div class="selected-count" *ngIf="getSelectedWorkouts().length > 0">
+          {{ getSelectedWorkouts().length }} workout(s) selected
+        </div>
+      </div>
+
+      <!-- Step 3: Weekly Schedule -->
+      <div class="form-section" *ngIf="getSelectedWorkouts().length > 0">
+        <h3>Weekly Schedule</h3>
+        <p class="section-description">Assign workouts to specific days of the week</p>
+        
+        <div class="schedule-grid">
+          <div class="day-column" *ngFor="let day of daysOfWeek">
+            <div class="day-header">
+              <h4>{{ day.short }}</h4>
+            </div>
+            
+            <div class="day-workouts">
+              <div 
+                class="scheduled-workout"
+                *ngFor="let workoutId of weeklySchedule[day.index]">
+                                 <div class="workout-info">
+                   <span class="workout-name">{{ getWorkoutById(workoutId)?.title || 'Unknown' }}</span>
+                   <button class="remove-btn" (click)="removeWorkoutFromDay(day.index, workoutId)">×</button>
+                 </div>
+              </div>
+              
+              <div class="add-workout-dropdown" *ngIf="getSelectedWorkouts().length > 0">
+                <select (change)="onWorkoutSelection(day.index, $event)">
+                  <option value="">+ Add workout</option>
+                  <option 
+                    *ngFor="let workout of getSelectedWorkouts()"
+                    [value]="workout.id"
+                    [disabled]="isWorkoutScheduledOnDay(day.index, workout.id)">
+                    {{ workout.title }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="cancel-btn" (click)="close()">Cancel</button>
+      <button 
+        class="create-btn"
+        [disabled]="!canCreateProgram()"
+        (click)="createProgram()">
+        Create Program
+      </button>
+    </div>
+  </div>
+</div>

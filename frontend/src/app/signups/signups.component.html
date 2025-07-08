@@ -1,0 +1,103 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h1>Create Your Account</h1>
+      <p>Start organizing your workout videos today</p>
+    </div>
+
+    <div class="auth-content">
+      <!-- Google Sign Up -->
+      <button 
+        type="button" 
+        class="google-btn"
+        (click)="signUpWithGoogle()"
+        [disabled]="isLoading">
+        <svg width="18" height="18" viewBox="0 0 18 18">
+          <path fill="#4285F4" d="m18 9.205c0-.639-.057-1.252-.164-1.841H9.228v3.481h4.923c-.212 1.112-.853 2.055-1.818 2.698v2.229h2.944C16.658 14.245 18 11.942 18 9.205z"/>
+          <path fill="#34A853" d="M9.228 18c2.43 0 4.467-.806 5.956-2.18l-2.944-2.229c-.806.54-1.837.86-3.012.86-2.317 0-4.28-1.562-4.98-3.661H1.27v2.296C2.752 15.465 5.785 18 9.228 18z"/>
+          <path fill="#FBBC04" d="M4.248 10.79c-.178-.54-.278-1.118-.278-1.79s.1-1.25.278-1.79V4.914H1.27C.463 6.508 0 8.204 0 9.999s.463 3.49 1.27 5.085L4.248 10.79z"/>
+          <path fill="#EA4335" d="M9.228 3.55c1.306 0 2.478.449 3.398 1.332l2.54-2.54C13.69.891 11.66 0 9.228 0 5.785 0 2.752 2.535 1.27 5.915l2.979 2.296c.699-2.099 2.662-3.661 4.979-3.661z"/>
+        </svg>
+        Continue with Google
+      </button>
+
+      <div class="divider">
+        <span>or</span>
+      </div>
+
+      <!-- Email/Password Sign Up Form -->
+      <form (ngSubmit)="signUpWithEmail()" #signupForm="ngForm">
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input 
+            type="email" 
+            id="email" 
+            name="email"
+            [(ngModel)]="email"
+            required 
+            email
+            placeholder="Enter your email"
+            [class.error]="emailInput.invalid && emailInput.touched"
+            #emailInput="ngModel">
+          <div *ngIf="emailInput.invalid && emailInput.touched" class="error-message">
+            <span *ngIf="emailInput.errors?.['required']">Email is required</span>
+            <span *ngIf="emailInput.errors?.['email']">Please enter a valid email</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input 
+            type="password" 
+            id="password" 
+            name="password"
+            [(ngModel)]="password"
+            required 
+            minlength="6"
+            placeholder="Choose a password"
+            [class.error]="passwordInput.invalid && passwordInput.touched"
+            #passwordInput="ngModel">
+          <div *ngIf="passwordInput.invalid && passwordInput.touched" class="error-message">
+            <span *ngIf="passwordInput.errors?.['required']">Password is required</span>
+            <span *ngIf="passwordInput.errors?.['minlength']">Password must be at least 6 characters</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <input 
+            type="password" 
+            id="confirmPassword" 
+            name="confirmPassword"
+            [(ngModel)]="confirmPassword"
+            required 
+            placeholder="Confirm your password"
+            [class.error]="confirmPasswordInput.invalid && confirmPasswordInput.touched"
+            #confirmPasswordInput="ngModel">
+          <div *ngIf="confirmPasswordInput.invalid && confirmPasswordInput.touched" class="error-message">
+            <span *ngIf="confirmPasswordInput.errors?.['required']">Please confirm your password</span>
+          </div>
+          <div *ngIf="password !== confirmPassword && confirmPassword && password" class="error-message">
+            Passwords do not match
+          </div>
+        </div>
+
+        <div *ngIf="errorMessage" class="error-message global-error">
+          {{ errorMessage }}
+        </div>
+
+        <button 
+          type="submit" 
+          class="submit-btn"
+          [disabled]="signupForm.invalid || isLoading || password !== confirmPassword">
+          <span *ngIf="isLoading">Creating Account...</span>
+          <span *ngIf="!isLoading">Create Account</span>
+        </button>
+      </form>
+
+      <div class="auth-footer">
+        <p>Already have an account? <a routerLink="/signin">Sign In</a></p>
+      </div>
+    </div>
+  </div>
+</div>

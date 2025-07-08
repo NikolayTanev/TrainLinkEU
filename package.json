@@ -1,0 +1,40 @@
+{
+  "name": "trainlink-2.0",
+  "version": "1.0.0",
+  "description": "Modern training management system built with Angular and Firebase",
+  "private": true,
+  "scripts": {
+    "start": "cd frontend && ng serve",
+    "build": "cd frontend && ng build",
+    "build:prod": "cd frontend && ng build --configuration production",
+    "test": "cd frontend && ng test",
+    "lint": "cd frontend && ng lint",
+    "serve:backend": "cd backend && npm run serve",
+    "build:backend": "cd backend && npm run build",
+    "deploy:backend": "cd backend && npm run deploy",
+    "firebase:login": "firebase login",
+    "firebase:init": "firebase init",
+    "firebase:deploy": "firebase deploy",
+    "firebase:serve": "firebase emulators:start",
+    "install:all": "npm install && cd frontend && npm install && cd ../backend && npm install",
+    "setup:firebase": "npm run firebase:login && npm run firebase:init",
+    "dev": "concurrently \"npm run start\" \"npm run serve:backend\"",
+    "postinstall": "echo 'Run npm run install:all to install all dependencies'"
+  },
+  "keywords": [
+    "angular",
+    "firebase",
+    "training",
+    "management",
+    "web-app"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  }
+} 
