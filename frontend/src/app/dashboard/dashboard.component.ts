@@ -4,9 +4,11 @@ import { User } from '@angular/fire/auth';
 import { Subscription, combineLatest } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { DataService } from '../services/data.service';
+import { FriendService } from '../services/friend.service';
 import { AddWorkoutModalComponent } from '../components/add-workout-modal/add-workout-modal.component';
 import { WorkoutPlayerComponent } from '../components/workout-player/workout-player.component';
 import { FeedbackComponent } from '../components/feedback/feedback.component';
+import { FriendsComponent } from '../components/friends/friends.component';
 import { AccountManagementComponent } from '../components/account-management/account-management.component';
 import { OnboardingComponent } from '../components/onboarding/onboarding.component';
 import { GoalsEditorComponent } from '../components/goals-editor/goals-editor.component';
@@ -15,7 +17,7 @@ import { Workout, WorkoutSchedule, WorkoutScheduleOverride, WorkoutWeeklyOverrid
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, AddWorkoutModalComponent, WorkoutPlayerComponent, FeedbackComponent, AccountManagementComponent, OnboardingComponent, GoalsEditorComponent],
+  imports: [CommonModule, AddWorkoutModalComponent, WorkoutPlayerComponent, FeedbackComponent, FriendsComponent, AccountManagementComponent, OnboardingComponent, GoalsEditorComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
@@ -79,6 +81,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
   // Mobile navigation
   isMobileSidebarOpen = false;
 
+  // Friend notifications
+  friendRequestCount = 0;
+  private friendRequestSubscription?: Subscription;
+
 
   private motivationalQuotes = [
     "Your body can do it. It's your mind you need to convince.",
@@ -95,7 +101,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   constructor(
     private authService: AuthService,
-    private dataService: DataService
+    private dataService: DataService,
+    private friendService: FriendService
   ) {}
 
   ngOnInit() {
@@ -116,6 +123,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
         // Load workouts and check onboarding when user is authenticated
         this.loadWorkouts();
         this.checkOnboardingStatus();
+        // Subscribe to friend request notifications
+        this.subscribeToFriendNotifications();
       } else {
         // Clear data when user is not authenticated
         this.workouts = [];
@@ -123,6 +132,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.hasCompletedOnboarding = false;
         this.filteredWorkouts = [];
         this.paginatedWorkouts = [];
+        this.friendRequestCount = 0;
       }
     });
 
@@ -150,6 +160,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
     if (this.completionLogSubscription) {
       this.completionLogSubscription.unsubscribe();
     }
+    if (this.friendRequestSubscription) {
+      this.friendRequestSubscription.unsubscribe();
+    }
+  }
+
+  private subscribeToFriendNotifications() {
+    this.friendRequestSubscription = this.friendService.friendRequestCount$.subscribe(count => {
+      this.friendRequestCount = count;
+    });
   }
 
   private getRandomQuote(): string {
@@ -709,6 +728,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
     
     if (section === 'calendar') {
       this.loadCalendarData();
+    } else if (section === 'friends') {
+      // Trigger friend request loading to update notification count
+      this.loadFriendRequestCount();
+    }
+  }
+
+  private loadFriendRequestCount() {
+    if (this.currentUser) {
+      // Trigger the friend service to load friend requests which will update the count
+      this.friendService.getIncomingFriendRequests().subscribe();
     }
   }
 

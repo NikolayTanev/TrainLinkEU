@@ -13,7 +13,16 @@ import {
   deleteUser,
   UserCredential
 } from '@angular/fire/auth';
+import { 
+  Firestore, 
+  collection, 
+  doc, 
+  getDoc, 
+  setDoc, 
+  Timestamp 
+} from '@angular/fire/firestore';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { UserProfile } from '../models/friend.model';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +36,8 @@ export class AuthService {
   constructor(
     private auth: Auth,
     private router: Router,
-    private injector: Injector
+    private injector: Injector,
+    private firestore: Firestore
   ) {
     // Listen to auth state changes
     onAuthStateChanged(this.auth, (user) => {
@@ -36,6 +46,9 @@ export class AuthService {
       // If user logs out, clear localStorage
       if (!user) {
         this.clearUserData();
+      } else {
+        // Ensure user profile exists when user logs in
+        this.ensureUserProfile(user);
       }
     });
   }
@@ -63,6 +76,8 @@ export class AuthService {
   async signUpWithEmail(email: string, password: string): Promise<UserCredential> {
     try {
       const result = await createUserWithEmailAndPassword(this.auth, email, password);
+      // Ensure user profile is created immediately after signup
+      await this.ensureUserProfile(result.user);
       await this.router.navigate(['/dashboard']);
       return result;
     } catch (error) {
@@ -75,6 +90,8 @@ export class AuthService {
   async signInWithEmail(email: string, password: string): Promise<UserCredential> {
     try {
       const result = await signInWithEmailAndPassword(this.auth, email, password);
+      // Ensure user profile exists on sign in (for existing users who didn't have profiles)
+      await this.ensureUserProfile(result.user);
       await this.router.navigate(['/dashboard']);
       return result;
     } catch (error) {
@@ -87,6 +104,8 @@ export class AuthService {
   async signUpWithGoogle(): Promise<UserCredential> {
     try {
       const result = await signInWithPopup(this.auth, this.googleProvider);
+      // Ensure user profile is created for Google signup
+      await this.ensureUserProfile(result.user);
       await this.router.navigate(['/dashboard']);
       return result;
     } catch (error) {
@@ -99,6 +118,8 @@ export class AuthService {
   async signInWithGoogle(): Promise<UserCredential> {
     try {
       const result = await signInWithPopup(this.auth, this.googleProvider);
+      // Ensure user profile exists for Google sign in
+      await this.ensureUserProfile(result.user);
       await this.router.navigate(['/dashboard']);
       return result;
     } catch (error) {
@@ -174,6 +195,46 @@ export class AuthService {
         return 'Please allow popups for this site to sign in with Google.';
       default:
         return 'An error occurred. Please try again.';
+    }
+  }
+
+  private async ensureUserProfile(user: User): Promise<void> {
+    try {
+      // Check if user profile already exists in userProfiles collection
+      const profilesRef = collection(this.firestore, 'userProfiles');
+      const userProfileQuery = doc(profilesRef, user.uid);
+      const docSnap = await getDoc(userProfileQuery);
+
+      if (!docSnap.exists()) {
+        // Create new user profile matching the UserProfile interface
+        // Remove undefined values since Firestore doesn't support them
+        const firestoreData: any = {
+          id: user.uid,
+          email: user.email || '',
+          dateJoined: Timestamp.fromDate(new Date()),
+          lastSeen: Timestamp.fromDate(new Date()),
+          isPublic: true // Default to public so users can be found by friends
+        };
+
+        // Only add optional fields if they have values
+        if (user.displayName) {
+          firestoreData.displayName = user.displayName;
+        }
+        if (user.photoURL) {
+          firestoreData.photoURL = user.photoURL;
+        }
+
+        await setDoc(userProfileQuery, firestoreData);
+        console.log('User profile created for:', user.displayName || user.email);
+      } else {
+        // Update last seen timestamp for existing users
+        await setDoc(userProfileQuery, {
+          lastSeen: Timestamp.fromDate(new Date())
+        }, { merge: true });
+        console.log('User profile updated for:', user.displayName || user.email);
+      }
+    } catch (error) {
+      console.error('Error ensuring user profile:', error);
     }
   }
 } 

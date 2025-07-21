@@ -1,0 +1,262 @@
+
+<div class="friends-title">
+  <h1>Friends</h1>
+</div>
+
+<div class="friends-container">
+  <div class="friends-add-section">
+    <div class="add-friends-header">
+      <h3>Add Friends</h3>
+      <p>Search for friends by email or username</p>
+    </div>
+    
+    <div class="add-friends-actions">
+      <div class="search-container">
+        <div class="search-input-wrapper">
+          <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="m21 21-4.35-4.35"/>
+          </svg>
+          <input 
+            type="text" 
+            class="search-input" 
+            placeholder="Search for friends by email or username..."
+            [(ngModel)]="searchTerm"
+            (input)="onSearchInput(searchTerm)"
+            #searchInput>
+          <button *ngIf="searchTerm" class="clear-search-btn" (click)="clearSearch()" title="Clear search">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      
+      <button class="invite-btn" (click)="toggleInviteForm()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+        Invite Friends
+      </button>
+    </div>
+
+    <!-- Search Results -->
+    <div class="search-results" *ngIf="searchTerm">
+      <div class="search-loading" *ngIf="isSearching">
+        <div class="spinner"></div>
+        <span>Searching...</span>
+      </div>
+      
+      <div class="search-error" *ngIf="searchError">
+        <span>{{ searchError }}</span>
+      </div>
+      
+      <div class="search-results-list" *ngIf="searchResults.length > 0 && !isSearching">
+        <div class="search-result" *ngFor="let result of searchResults">
+          <div class="user-avatar">
+            <img *ngIf="result.user.photoURL" [src]="result.user.photoURL" [alt]="result.user.displayName || result.user.email">
+            <span *ngIf="!result.user.photoURL">{{ getInitials(result.user.displayName || result.user.email) }}</span>
+          </div>
+          <div class="user-details">
+            <h4>{{ result.user.displayName || result.user.email }}</h4>
+            <p>{{ result.user.email }}</p>
+            <span class="username" *ngIf="result.user.username">{{ '@' + result.user.username }}</span>
+          </div>
+          <div class="user-actions">
+            <button 
+              *ngIf="result.relationship === 'none'" 
+              class="add-friend-btn" 
+              (click)="sendFriendRequest(result.user.id)">
+              Add Friend
+            </button>
+            <span *ngIf="result.relationship === 'pending_sent'" class="status-badge sent">Request Sent</span>
+            <span *ngIf="result.relationship === 'pending_received'" class="status-badge received">Respond to Request</span>
+            <span *ngIf="result.relationship === 'friends'" class="status-badge friends">Already Friends</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="no-results" *ngIf="searchResults.length === 0 && !isSearching && searchTerm && !searchError">
+        <span>No users found matching "{{ searchTerm }}"</span>
+      </div>
+    </div>
+
+    <!-- Email Invite Form -->
+    <div class="invite-form" *ngIf="showInviteForm">
+      <div class="invite-form-header">
+        <h4>Invite Friend by Email</h4>
+        <button class="close-form-btn" (click)="toggleInviteForm()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+      <div class="invite-form-content">
+        <input 
+          type="email" 
+          class="invite-email-input" 
+          placeholder="Enter email address..."
+          [(ngModel)]="inviteEmail">
+        <textarea 
+          class="invite-message-input" 
+          placeholder="Add a personal message (optional)..."
+          [(ngModel)]="inviteMessage"
+          rows="3"></textarea>
+        <div class="invite-form-actions">
+          <button class="cancel-invite-btn" (click)="toggleInviteForm()">Cancel</button>
+          <button 
+            class="send-invite-btn" 
+            [disabled]="!inviteEmail.trim() || isInviting"
+            (click)="sendEmailInvite()">
+            <span *ngIf="!isInviting">Send Invite</span>
+            <span *ngIf="isInviting">Sending...</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="friends-inbox-section" [class.collapsed]="!shouldShowFriendRequests()">
+    <div class="inbox-header" (click)="toggleFriendRequests()">
+      <h3>Friend Requests</h3>
+      <div class="inbox-controls">
+        <div class="inbox-badge" *ngIf="getRequestCount() > 0">
+          <span class="badge-count">{{ getRequestCount() }}</span>
+        </div>
+        <button class="expand-toggle" [class.expanded]="shouldShowFriendRequests()" title="Toggle friend requests">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <polyline points="6,9 12,15 18,9"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    
+    <div class="inbox-content" *ngIf="shouldShowFriendRequests()">
+      <!-- Loading State -->
+      <div class="inbox-loading" *ngIf="isLoadingRequests">
+        <div class="spinner"></div>
+        <span>Loading requests...</span>
+      </div>
+
+      <!-- Friend Requests -->
+      <div class="friend-requests" *ngIf="!isLoadingRequests && incomingRequests.length > 0">
+        <div class="friend-request" *ngFor="let request of incomingRequests">
+          <div class="request-user">
+            <div class="user-avatar">
+              <img *ngIf="request.fromUserProfile.photoURL" 
+                   [src]="request.fromUserProfile.photoURL" 
+                   [alt]="request.fromUserProfile.displayName || request.fromUserProfile.email">
+              <span *ngIf="!request.fromUserProfile.photoURL">
+                {{ getInitials(request.fromUserProfile.displayName || request.fromUserProfile.email) }}
+              </span>
+            </div>
+            <div class="request-details">
+              <h4>{{ request.fromUserProfile.displayName || request.fromUserProfile.email }}</h4>
+              <p class="request-email">{{ request.fromUserProfile.email }}</p>
+              <p class="request-time">{{ getRelativeTime(request.dateCreated) }}</p>
+              <p class="request-message" *ngIf="request.message">{{ request.message }}</p>
+            </div>
+          </div>
+          <div class="request-actions">
+            <button class="accept-btn" (click)="acceptFriendRequest(request.id)">Accept</button>
+            <button class="decline-btn" (click)="declineFriendRequest(request.id)">Decline</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div class="inbox-empty" *ngIf="!isLoadingRequests && incomingRequests.length === 0">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="empty-icon">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+        <p>No friend requests</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Current Friends Section -->
+  <div class="friends-list-section">
+    <div class="friends-list-header">
+      <h3>Your Friends</h3>
+      <div class="friends-count">
+        <span class="count-badge">{{ friends.length }}</span>
+      </div>
+    </div>
+    
+    <div class="friends-list-content">
+      <!-- Loading State -->
+      <div class="friends-loading" *ngIf="isLoadingFriends">
+        <div class="spinner"></div>
+        <span>Loading friends...</span>
+      </div>
+
+      <!-- Friends List -->
+      <div class="friends-list" *ngIf="!isLoadingFriends && friends.length > 0">
+        <div class="friend-card" *ngFor="let friend of friends">
+          <div class="friend-user">
+            <div class="user-avatar">
+              <img *ngIf="friend.photoURL" 
+                   [src]="friend.photoURL" 
+                   [alt]="friend.displayName || friend.email">
+              <span *ngIf="!friend.photoURL">
+                {{ getInitials(friend.displayName || friend.email) }}
+              </span>
+            </div>
+            <div class="friend-details">
+              <h4>{{ friend.displayName || friend.email }}</h4>
+              <p class="friend-email">{{ friend.email }}</p>
+              <p class="friend-username" *ngIf="friend.username">{{ '@' + friend.username }}</p>
+            </div>
+          </div>
+          <div class="friend-actions">
+            <button class="message-btn" title="Send message">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+            </button>
+            <div class="friend-dropdown">
+              <button class="more-options-btn" title="More options" (click)="toggleFriendMenu(friend.id); $event.stopPropagation()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <circle cx="12" cy="12" r="1"/>
+                  <circle cx="12" cy="5" r="1"/>
+                  <circle cx="12" cy="19" r="1"/>
+                </svg>
+              </button>
+              <div class="dropdown-menu" *ngIf="activeFriendMenu === friend.id" (click)="$event.stopPropagation()">
+                <button class="dropdown-item remove" (click)="removeFriend(friend); toggleFriendMenu(''); $event.stopPropagation()">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <line x1="14" y1="8" x2="23" y2="17"/>
+                    <line x1="23" y1="8" x2="14" y2="17"/>
+                  </svg>
+                  Remove Friend
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div class="friends-empty" *ngIf="!isLoadingFriends && friends.length === 0">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="empty-icon">
+          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+        <p>No friends yet</p>
+        <small>Add friends to see them here</small>
+      </div>
+    </div>
+  </div>
+</div>
