@@ -730,73 +730,114 @@ $font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sa
   background: $dark-bg;
   padding: 80px 0;
   color: $text-light;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 48%;
+    width: 980px;
+    height: 640px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(ellipse, rgba(255, 107, 53, 0.08) 0%, transparent 72%);
+    pointer-events: none;
+  }
+
+  .section-container,
+  .steps-container {
+    position: relative;
+    z-index: 1;
+  }
 
   .steps-container {
     display: flex;
     flex-direction: column;
-    gap: 80px;
-    margin-top: 4rem;
+    gap: 28px;
+    margin-top: 3rem;
 
     @media (max-width: 768px) {
-      gap: 60px;
-      margin-top: 3rem;
+      gap: 20px;
+      margin-top: 2.5rem;
     }
 
     .step {
+      @include glass-card;
+      background: rgba(255, 255, 255, 0.045);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 32px;
       display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 48px;
+      grid-template-columns: minmax(240px, 0.9fr) minmax(280px, 1.1fr);
+      gap: 40px;
       align-items: center;
-      padding: 2rem 0;
+      padding: 40px 44px;
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.08),
+        0 18px 48px rgba(0, 0, 0, 0.24);
+
+      &:nth-child(even) {
+        grid-template-columns: minmax(280px, 1.1fr) minmax(240px, 0.9fr);
+
+        .step-content {
+          order: 2;
+        }
+      }
 
       .step-content {
-        max-width: 480px;
-        padding-right: 1rem;
+        max-width: 420px;
 
         .step-title {
-          font-size: 1.6rem;
+          font-size: 1.7rem;
           font-weight: 700;
           color: $text-light;
-          margin-bottom: 1.2rem;
-          letter-spacing: -0.01em;
+          margin-bottom: 0.85rem;
+          letter-spacing: -0.02em;
           word-spacing: 0.04em;
           line-height: 1.2;
         }
 
         .step-description {
           color: $text-muted;
-          line-height: 1.7;
-          font-size: 1.05rem;
+          line-height: 1.65;
+          font-size: 1.02rem;
         }
       }
 
       .step-image {
         display: flex;
         justify-content: center;
-        max-width: 100%;
+        align-items: center;
         
         .step-img {
           width: 100%;
-          max-width: 520px;
+          max-width: 480px;
           height: auto;
-          border-radius: 12px;
-          // Removed border, shadow, and hover effects for a clean look
+          border-radius: 16px;
         }
       }
 
       @media (max-width: 768px) {
         grid-template-columns: 1fr;
-        gap: 24px;
+        gap: 20px;
         text-align: center;
-        padding: 1.5rem 0;
+        padding: 24px 20px;
+        border-radius: 24px;
+
+        &:nth-child(even) {
+          grid-template-columns: 1fr;
+
+          .step-content {
+            order: 0;
+          }
+        }
 
         .step-content {
-          padding-right: 0;
           max-width: 100%;
 
           .step-title {
             font-size: 1.4rem;
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
           }
 
           .step-description {
@@ -805,8 +846,7 @@ $font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sa
         }
 
         .step-image {
-          max-width: 280px;
-          margin: 0 auto;
+          max-width: 100%;
         }
       }
     }
