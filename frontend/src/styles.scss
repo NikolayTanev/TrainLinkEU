@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap');
 
 * {
   margin: 0;
@@ -57,12 +57,19 @@ body {
   opacity: 0.7;
 }
 
-// Focus states for accessibility
 button:focus,
 a:focus,
 input:focus,
 textarea:focus,
 select:focus {
+  outline: none;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
   outline: 2px solid #667eea;
   outline-offset: 2px;
 }

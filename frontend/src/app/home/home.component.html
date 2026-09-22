@@ -1,282 +1,160 @@
-
-<!-- Hero Section -->
 <section class="hero">
+  <div class="hero-wash"></div>
   <div class="container">
     <div class="hero-content">
-      <p class="eyebrow">AI workout organizer</p>
-      <h1>
-        Your AI coach for<br>
-        <span class="highlight">a week of workouts</span>
-      </h1>
+      <h1>Workout videos,<br>written into a plan</h1>
       <p class="subtitle">
-        Tell it your goal, time, and gear. TrainLink builds the week and pulls the reps from your videos.
+        Paste a workout video. TrainLink reads it, summarizes the sets, reps, and rest,
+        then builds the week around your goal, time, and gear.
       </p>
-      <div class="hero-actions">
-        <a routerLink="/signup" class="cta-button">Get your AI plan</a>
-        <a routerLink="/home" fragment="how-it-works" class="cta-secondary">See how it works</a>
-      </div>
-      <ul class="hero-points">
-        <li>Reads sets and reps from YouTube</li>
-        <li>Builds a week around your gear</li>
-        <li>Reshuffles when you skip</li>
-      </ul>
+      <a routerLink="/signup" class="cta-button">Get the plan</a>
     </div>
-    
-    <div class="hero-image">
-      <div class="hero-visual">
-        <div class="prompt-card">
-          <span class="prompt-label">Your brief</span>
-          <p>Fat loss · 25 min · dumbbells</p>
+
+    <div class="hero-visual">
+      <div class="panel">
+        <div class="panel-body">
+          <div class="chat-head">
+            <span class="chat-mark">T</span>
+            <div>
+              <strong>Today</strong>
+              <small>Built for 25 min · dumbbells</small>
+            </div>
+          </div>
+          <p class="chat-note">
+            Strength session ready. 8 moves summarized from your HIIT video. Rest stays at 40 seconds.
+          </p>
+          <ul class="chat-list">
+            <li>Keep today at 25 minutes so you stay on the weekly goal.</li>
+            <li>If you skip, Friday picks up the strength block.</li>
+          </ul>
+          <div class="session-card">
+            <div class="session-kicker">Wednesday</div>
+            <div class="session-title">15 min HIIT, read from video</div>
+            <div class="session-meta">8 moves · 3 rounds · 40s rest</div>
+          </div>
+          <div class="ask-bar">Encoded from video · 8 moves</div>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-        <div class="app-mockup">
-          <div class="mockup-header">
-            <div class="mockup-title">This week</div>
-            <div class="streak-badge">4 sessions</div>
-          </div>
+<section class="manifesto">
+  <p>Read the video.</p>
+  <p>Write the session.</p>
+  <p>Plan the week.</p>
+</section>
 
-          <div class="featured-video">
-            <div class="video-thumbnail">
-              <div class="play-overlay">
-                <div class="play-btn">▶</div>
-              </div>
-              <div class="video-info">
-                <div class="video-title">15 Min HIIT Fat Burning Workout</div>
-                <div class="video-duration">Read from video · 8 moves</div>
-              </div>
-            </div>
-          </div>
+<section id="features" class="studio">
+  <nav class="studio-tabs">
+    <button
+      *ngFor="let tab of tabs"
+      type="button"
+      class="studio-tab"
+      [class.active]="activeTab === tab.id"
+      (click)="setTab(tab.id)">
+      {{ tab.label }}
+    </button>
+  </nav>
 
-          <div class="quick-schedule">
-            <div class="week-calendar">
-              <div class="day">
-                <div class="day-label">Mon</div>
-                <div class="day-workout completed">Yoga</div>
-              </div>
-              <div class="day">
-                <div class="day-label">Tue</div>
-                <div class="day-workout completed">HIIT</div>
-              </div>
-              <div class="day">
-                <div class="day-label">Wed</div>
-                <div class="day-workout today">Strength</div>
-              </div>
-              <div class="day">
-                <div class="day-label">Thu</div>
-                <div class="day-workout">Rest</div>
-              </div>
-              <div class="day">
-                <div class="day-label">Fri</div>
-                <div class="day-workout">HIIT</div>
-              </div>
-            </div>
-          </div>
+  <div class="studio-panel">
+    <div class="studio-copy" *ngIf="activeTab === 'plan'">
+      <h2>A week built from your goal, your time, and your gear.</h2>
+      <p>Tell TrainLink what you are training for. It fills the days from sessions it already summarized, so you are not picking a random video each morning.</p>
+    </div>
+    <div class="studio-copy" *ngIf="activeTab === 'video'">
+      <h2>Each video is encoded into a session you can follow.</h2>
+      <p>Paste a link. TrainLink reads the workout and writes the moves, sets, reps, and rest. You train from the summary, not from memory.</p>
+    </div>
+    <div class="studio-copy" *ngIf="activeTab === 'adapt'">
+      <h2>Miss a day and the rest of the week moves with you.</h2>
+      <p>Skip Wednesday and strength slides to Friday. The weekly goal stays intact without you rebuilding the calendar.</p>
+    </div>
 
-          <div class="trainer-categories">
-            <div class="category-header">Wednesday, from your video</div>
-            <div class="trainer-grid">
-              <div class="trainer-card">
-                <div class="trainer-avatar">3x</div>
-                <div class="trainer-info">
-                  <div class="trainer-name">Push-ups</div>
-                  <div class="workout-count">12 reps · 40s rest</div>
-                </div>
-              </div>
-              <div class="trainer-card">
-                <div class="trainer-avatar">4x</div>
-                <div class="trainer-info">
-                  <div class="trainer-name">Goblet squats</div>
-                  <div class="workout-count">10 reps · 16kg</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="read-card">
-          <span class="read-dot"></span>
+    <div class="panel studio-panel-card">
+      <div class="panel-body" *ngIf="activeTab === 'plan'">
+        <div class="chat-head">
+          <span class="chat-mark">T</span>
           <div>
-            <div class="read-title">Video read</div>
-            <div class="read-meta">8 moves pulled · 15 min</div>
+            <strong>This week</strong>
+            <small>Fat loss · 4 sessions</small>
           </div>
+        </div>
+        <div class="week-row">
+          <div class="week-day done"><b>Mon</b><span>Yoga</span></div>
+          <div class="week-day done"><b>Tue</b><span>HIIT</span></div>
+          <div class="week-day now"><b>Wed</b><span>Strength</span></div>
+          <div class="week-day"><b>Thu</b><span>Rest</span></div>
+          <div class="week-day"><b>Fri</b><span>HIIT</span></div>
+        </div>
+        <div class="session-card">
+          <div class="session-kicker">Next up</div>
+          <div class="session-title">Goblet squats · 4 x 10</div>
+          <div class="session-meta">16kg · from your video</div>
+        </div>
+      </div>
+      <div class="panel-body" *ngIf="activeTab === 'video'">
+        <div class="chat-head">
+          <span class="chat-mark">T</span>
+          <div>
+            <strong>Video read</strong>
+            <small>15 min HIIT</small>
+          </div>
+        </div>
+        <p class="chat-note">8 moves encoded from this video. This is the work in the session.</p>
+        <div class="move-row"><span>3x</span><div><b>Push-ups</b><small>12 reps · 40s rest</small></div></div>
+        <div class="move-row"><span>4x</span><div><b>Goblet squats</b><small>10 reps · 16kg</small></div></div>
+        <div class="move-row"><span>3x</span><div><b>Renegade rows</b><small>8 each side</small></div></div>
+      </div>
+      <div class="panel-body" *ngIf="activeTab === 'adapt'">
+        <div class="chat-head">
+          <span class="chat-mark">T</span>
+          <div>
+            <strong>The week</strong>
+            <small>Updated just now</small>
+          </div>
+        </div>
+        <p class="chat-note">You skipped Wednesday. I moved strength to Friday so you still hit 4 sessions.</p>
+        <div class="week-row">
+          <div class="week-day done"><b>Mon</b><span>Yoga</span></div>
+          <div class="week-day done"><b>Tue</b><span>HIIT</span></div>
+          <div class="week-day"><b>Wed</b><span>Rest</span></div>
+          <div class="week-day"><b>Thu</b><span>HIIT</span></div>
+          <div class="week-day now"><b>Fri</b><span>Strength</span></div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Features Section -->
-<section id="features" class="features">
-  <div class="section-container">
-    <div class="section-header">
-      <h2 class="section-title">An organizer that actually coaches</h2>
-      <p class="section-subtitle">Save the videos you already like. Let AI turn them into a week you can follow.</p>
-    </div>
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 2a4 4 0 0 1 4 4v1a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4z"/>
-            <path d="M4 14h16"/>
-            <path d="M6 18h12"/>
-            <path d="M9 22h6"/>
-          </svg>
-        </div>
-        <h3 class="feature-title">Generate a weekly plan</h3>
-        <p class="feature-description">
-          Set a goal, how many days you can train, and what equipment you have.
-          TrainLink builds a balanced week instead of leaving you to pick a random video.
-        </p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polygon points="5,3 19,12 5,21"/>
-          </svg>
-        </div>
-        <h3 class="feature-title">Reads reps from your videos</h3>
-        <p class="feature-description">
-          Paste a YouTube workout and the AI watches it with you in mind. It pulls the
-          exact sets, reps, rest, and moves so you follow the session, not just play the clip.
-        </p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M18 20V10M12 20V4M6 20v-6"/>
-          </svg>
-        </div>
-        <h3 class="feature-title">Adapts when you skip</h3>
-        <p class="feature-description">
-          Missed Wednesday? The plan reshuffles so you still hit your weekly goal.
-          Mark sessions complete and the coach keeps your streak honest.
-        </p>
-      </div>
-    </div>
-  </div>
+<section id="how-it-works" class="story">
+  <article class="story-copy">
+    <h2>Start with the video, not a blank week.</h2>
+    <p>Paste the workouts you already use. TrainLink reads each one before it places anything on the calendar.</p>
+  </article>
+
+  <article class="story-copy">
+    <h2>The clip becomes a written session.</h2>
+    <p>Moves, rounds, reps, and rest are pulled out of the video and saved as the session you will actually do.</p>
+  </article>
+
+  <article class="story-copy">
+    <h2>Skip a day and the week is rewritten.</h2>
+    <p>Miss Wednesday and the remaining sessions move. The goal stays. You do not rebuild the plan by hand.</p>
+  </article>
 </section>
 
-<!-- How It Works Section -->
-<section id="how-it-works" class="how-it-works">
-  <div class="section-container">
-    <div class="section-header">
-      <h2 class="section-title">How TrainLink works</h2>
-      <p class="section-subtitle">From a saved list of videos to a week you can actually follow</p>
-    </div>
-    <div class="steps-container">
-      <div class="step">
-        <div class="step-content">
-          <h3 class="step-title">Tell it your goal</h3>
-          <p class="step-description">
-            Strength, fat loss, or just staying consistent. Add how many days you can train,
-            how long each session should be, and what you have at home.
-          </p>
-        </div>
-        <div class="step-image">
-          <img src="assets/workouts.png" alt="Tell TrainLink your workout goal" class="step-img">
-        </div>
-      </div>
-      
-      <div class="step">
-        <div class="step-content">
-          <h3 class="step-title">Get a week with real reps</h3>
-          <p class="step-description">
-            TrainLink builds the calendar and reads each video for the work inside it.
-            Rounds, reps, rest, and the moves you will actually do, organized into the week.
-          </p>
-        </div>
-        <div class="step-image">
-          <img src="assets/schedule.png" alt="AI generated weekly workout plan" class="step-img">
-        </div>
-      </div>
-      
-      <div class="step">
-        <div class="step-content">
-          <h3 class="step-title">Train, then it replans</h3>
-          <p class="step-description">
-            Open today's session and go. If you finish or skip, the rest of the week
-            updates so you stay on track without rebuilding the plan yourself.
-          </p>
-        </div>
-        <div class="step-image">
-          <img src="assets/stats.png" alt="Track progress and let AI replan" class="step-img">
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Testimonials Section -->
-<section class="testimonials">
-  <div class="section-container">
-    <div class="section-header">
-      <h2 class="section-title">What people say about the coach</h2>
-      <p class="section-subtitle">Home workouts work better when someone, or something, plans the week</p>
-    </div>
-    <div class="testimonials-grid">
-      <div class="testimonial-card">
-        <p class="testimonial-text">
-          "I used to save twenty HIIT videos and never know which one to do.
-          TrainLink built a week from my list and even listed the reps from each video."
-        </p>
-        <div class="testimonial-author">
-          <div class="author-avatar">S</div>
-          <div class="author-info">
-            <div class="author-name">Sarah M.</div>
-            <div class="author-duration">Home fitness</div>
-          </div>
-        </div>
-      </div>
-      
-      <div class="testimonial-card">
-        <p class="testimonial-text">
-          "I tell it I have 25 minutes and a pair of dumbbells. Monday through Friday
-          is already filled in when I open the app. That is the whole product for me."
-        </p>
-        <div class="testimonial-author">
-          <div class="author-avatar">M</div>
-          <div class="author-info">
-            <div class="author-name">Mike T.</div>
-            <div class="author-duration">Works from home</div>
-          </div>
-        </div>
-      </div>
-      
-      <div class="testimonial-card">
-        <p class="testimonial-text">
-          "If I miss a session during nap time, it moves things around instead of
-          making me feel behind. I just follow the next block it gives me."
-        </p>
-        <div class="testimonial-author">
-          <div class="author-avatar">A</div>
-          <div class="author-info">
-            <div class="author-name">Alex R.</div>
-            <div class="author-duration">Busy parent</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CTA Section -->
 <section class="cta-section">
-  <div class="cta-container">
-    <h2 class="cta-title">Ready for a week that is already planned?</h2>
-    <p class="cta-subtitle">Stop picking a random YouTube video every morning. Let TrainLink organize the week and pull the work out of each session.</p>
-    <a routerLink="/signup" class="cta-button-large">Start your free AI plan</a>
-  </div>
+  <h2>Ready for a week written from your videos?</h2>
+  <p>TrainLink reads the workout, summarizes the work, and puts it on the days you can train.</p>
+  <a routerLink="/signup" class="cta-button">Get the plan</a>
 </section>
 
-<!-- Footer -->
 <footer class="footer">
-  <div class="footer-container">
-    <div class="footer-brand">
-      <img src="assets/trainlink-logo.png" alt="TrainLink Logo" class="logo-image">
-      <span class="logo-text">TrainLink</span>
-    </div>
+  <div class="footer-brand">
+    <img src="assets/trainlink-logo.png" alt="TrainLink" class="logo-image">
+    <span>TrainLink</span>
   </div>
-  <div class="footer-bottom">
-    <p>&copy; 2026 TrainLink. All rights reserved.</p>
-  </div>
+  <a class="footer-contact" href="mailto:contact@trainlink.online">contact&#64;trainlink.online</a>
+  <p class="footer-copy">&copy; 2026 TrainLink. All rights reserved.</p>
 </footer>

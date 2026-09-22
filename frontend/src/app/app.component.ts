@@ -33,14 +33,10 @@ export class AppComponent implements OnInit, OnDestroy {
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event) => {
         // Show navbar only on home, signin, and signup pages
-        const publicRoutes = ['/home', '/signin', '/signup', '/'];
-        this.showNavbar = publicRoutes.includes((event as NavigationEnd).url);
+        this.showNavbar = this.isPublicRoute((event as NavigationEnd).url);
       });
 
-    // Set initial navbar visibility based on current route
-    const currentUrl = this.router.url;
-    const publicRoutes = ['/home', '/signin', '/signup', '/'];
-    this.showNavbar = publicRoutes.includes(currentUrl);
+    this.showNavbar = this.isPublicRoute(this.router.url);
   }
 
   ngOnDestroy() {
@@ -50,6 +46,11 @@ export class AppComponent implements OnInit, OnDestroy {
     if (this.routerSubscription) {
       this.routerSubscription.unsubscribe();
     }
+  }
+
+  private isPublicRoute(url: string): boolean {
+    const path = url.split(/[?#]/)[0] || '/';
+    return ['/home', '/signin', '/signup', '/'].includes(path);
   }
 
   getInitials(name: string): string {

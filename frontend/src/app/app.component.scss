@@ -22,7 +22,7 @@ body {
   font-family: $font-family;
   line-height: 1.6;
   color: $text-light;
-  background-color: $dark-bg;
+  background-color: #050505;
   scroll-behavior: smooth;
 }
 
@@ -33,9 +33,9 @@ body {
   left: 0;
   right: 0;
   z-index: 1000;
-  background: rgba(15, 20, 25, 0.95);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid $dark-border;
+  background: rgba(5, 5, 5, 0.72);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   transition: all 0.3s ease;
 
   .nav-container {
@@ -44,10 +44,10 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.5rem 2rem;
+    padding: 0.65rem 1.5rem;
 
     @media (max-width: 768px) {
-      padding: 1rem;
+      padding: 0.55rem 1rem;
     }
 
     // Extra small screens
@@ -117,15 +117,15 @@ body {
 
       .nav-link {
         text-decoration: none;
-        color: $text-muted;
+        color: #c9c4bb;
         font-weight: 500;
-        font-size: 0.875rem;
+        font-size: 0.82rem;
         letter-spacing: 0.01em;
         word-spacing: 0.04em;
         transition: color 0.3s ease;
 
         &:hover {
-          color: $accent-blue;
+          color: #f4f1ea;
         }
       }
 
@@ -146,8 +146,8 @@ body {
         font-size: 0.875rem;
         letter-spacing: 0.01em;
         word-spacing: 0.04em;
-        padding: 0.75rem 1.5rem;
-        border: 1px solid $dark-border;
+        padding: 0.45rem 1rem;
+        border: 1px solid rgba(255, 255, 255, 0.16);
         border-radius: 25px;
         transition: all 0.3s ease;
 
@@ -159,21 +159,20 @@ body {
       }
 
       .signup-btn {
-        background: $accent-blue;
-        color: $dark-bg;
+        background: #f4f1ea;
+        color: #050505;
         text-decoration: none;
-        padding: 0.75rem 1.5rem;
+        padding: 0.45rem 1rem;
         border-radius: 25px;
         font-weight: 600;
-        font-size: 0.875rem;
+        font-size: 0.82rem;
         letter-spacing: 0.01em;
         word-spacing: 0.04em;
         cursor: pointer;
-        transition: all 0.3s ease;
+        transition: opacity 0.2s ease;
 
         &:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 4px 20px rgba(255, 107, 53, 0.3);
+          opacity: 0.88;
         }
       }
 
