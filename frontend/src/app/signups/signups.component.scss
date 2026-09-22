@@ -50,7 +50,25 @@ $font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sa
 
   p {
     color: $muted;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+}
+
+.home-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $ink;
+  color: $bg;
+  text-decoration: none;
+  border-radius: 999px;
+  padding: 0.875rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+
+  &:hover {
+    opacity: 0.9;
   }
 }
 
