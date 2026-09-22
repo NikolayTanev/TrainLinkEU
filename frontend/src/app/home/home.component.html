@@ -3,86 +3,101 @@
 <section class="hero">
   <div class="container">
     <div class="hero-content">
+      <p class="eyebrow">AI workout organizer</p>
       <h1>
-        ORGANIZE YOUR<br>
-        <span class="highlight">HOME WORKOUT</span> VIDEOS<br>
-        IN ONE PLACE
+        Your AI coach for<br>
+        <span class="highlight">a week of workouts</span>
       </h1>
       <p class="subtitle">
-        Stop hunting through YouTube for your favorite trainer's workouts. TrainLink lets you save, organize, and schedule all your home workout videos from your favorite fitness creators - all in one convenient dashboard.
+        Tell it your goal, time, and gear. TrainLink builds the week and pulls the reps from your videos.
       </p>
-      <a routerLink="/signup" class="cta-button">START ORGANIZING NOW</a>
+      <div class="hero-actions">
+        <a routerLink="/signup" class="cta-button">Get your AI plan</a>
+        <a routerLink="/home" fragment="how-it-works" class="cta-secondary">See how it works</a>
+      </div>
+      <ul class="hero-points">
+        <li>Reads sets and reps from YouTube</li>
+        <li>Builds a week around your gear</li>
+        <li>Reshuffles when you skip</li>
+      </ul>
     </div>
     
     <div class="hero-image">
-      <div class="app-mockup">
-        <div class="mockup-header">
-          <div class="mockup-title">Dashboard</div>
-          
+      <div class="hero-visual">
+        <div class="prompt-card">
+          <span class="prompt-label">Your brief</span>
+          <p>Fat loss · 25 min · dumbbells</p>
         </div>
 
-        <!-- Featured Video Player -->
-        <div class="featured-video">
-          <div class="video-thumbnail">
-            <div class="play-overlay">
-              <div class="play-btn">▶</div>
-            </div>
-            <div class="video-info">
-              <div class="video-title">15 Min HIIT Fat Burning Workout</div>
-              <div class="video-duration">15:32</div>
-            </div>
+        <div class="app-mockup">
+          <div class="mockup-header">
+            <div class="mockup-title">This week</div>
+            <div class="streak-badge">4 sessions</div>
           </div>
-        </div>
 
-        <!-- Weekly Schedule -->
-        <div class="quick-schedule">
-          <div class="schedule-header">
-            <span>This Week's Plan</span>
-            <div class="streak-badge">6 day streak! 🔥</div>
-          </div>
-          <div class="week-calendar">
-            <div class="day">
-              <div class="day-label">Mon</div>
-              <div class="day-workout completed">Yoga</div>
-            </div>
-            <div class="day">
-              <div class="day-label">Tue</div>
-              <div class="day-workout completed">HIIT</div>
-            </div>
-            <div class="day">
-              <div class="day-label">Wed</div>
-              <div class="day-workout today">Strength</div>
-            </div>
-            <div class="day">
-              <div class="day-label">Thu</div>
-              <div class="day-workout">Cardio</div>
-            </div>
-            <div class="day">
-              <div class="day-label">Fri</div>
-              <div class="day-workout">HIIT</div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Your Favorite Trainers -->
-        <div class="trainer-categories">
-          <div class="category-header">Your Favorite Trainers</div>
-          <div class="trainer-grid">
-            <div class="trainer-card chloe">
-              <div class="trainer-avatar">HF</div>
-              <div class="trainer-info">
-                <div class="trainer-name">HIIT Fitness</div>
-                <div class="workout-count">12 videos</div>
+          <div class="featured-video">
+            <div class="video-thumbnail">
+              <div class="play-overlay">
+                <div class="play-btn">▶</div>
+              </div>
+              <div class="video-info">
+                <div class="video-title">15 Min HIIT Fat Burning Workout</div>
+                <div class="video-duration">Read from video · 8 moves</div>
               </div>
             </div>
-            <div class="trainer-card fitness">
-              <div class="trainer-avatar">SF</div>
-              <div class="trainer-info">
-                <div class="trainer-name">Strength Fusion</div>
-                <div class="workout-count">8 videos</div>
+          </div>
+
+          <div class="quick-schedule">
+            <div class="week-calendar">
+              <div class="day">
+                <div class="day-label">Mon</div>
+                <div class="day-workout completed">Yoga</div>
               </div>
-            
+              <div class="day">
+                <div class="day-label">Tue</div>
+                <div class="day-workout completed">HIIT</div>
+              </div>
+              <div class="day">
+                <div class="day-label">Wed</div>
+                <div class="day-workout today">Strength</div>
+              </div>
+              <div class="day">
+                <div class="day-label">Thu</div>
+                <div class="day-workout">Rest</div>
+              </div>
+              <div class="day">
+                <div class="day-label">Fri</div>
+                <div class="day-workout">HIIT</div>
+              </div>
             </div>
+          </div>
+
+          <div class="trainer-categories">
+            <div class="category-header">Wednesday, from your video</div>
+            <div class="trainer-grid">
+              <div class="trainer-card">
+                <div class="trainer-avatar">3x</div>
+                <div class="trainer-info">
+                  <div class="trainer-name">Push-ups</div>
+                  <div class="workout-count">12 reps · 40s rest</div>
+                </div>
+              </div>
+              <div class="trainer-card">
+                <div class="trainer-avatar">4x</div>
+                <div class="trainer-info">
+                  <div class="trainer-name">Goblet squats</div>
+                  <div class="workout-count">10 reps · 16kg</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="read-card">
+          <span class="read-dot"></span>
+          <div>
+            <div class="read-title">Video read</div>
+            <div class="read-meta">8 moves pulled · 15 min</div>
           </div>
         </div>
       </div>
@@ -94,35 +109,35 @@
 <section id="features" class="features">
   <div class="section-container">
     <div class="section-header">
-      <h2 class="section-title">PERFECT FOR HOME FITNESS</h2>
-      <p class="section-subtitle">Everything you need to organize and schedule your YouTube workout collection</p>
+      <h2 class="section-title">An organizer that actually coaches</h2>
+      <p class="section-subtitle">Save the videos you already like. Let AI turn them into a week you can follow.</p>
     </div>
     <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2a4 4 0 0 1 4 4v1a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4z"/>
+            <path d="M4 14h16"/>
+            <path d="M6 18h12"/>
+            <path d="M9 22h6"/>
+          </svg>
+        </div>
+        <h3 class="feature-title">Generate a weekly plan</h3>
+        <p class="feature-description">
+          Set a goal, how many days you can train, and what equipment you have.
+          TrainLink builds a balanced week instead of leaving you to pick a random video.
+        </p>
+      </div>
       <div class="feature-card">
         <div class="feature-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polygon points="5,3 19,12 5,21"/>
           </svg>
         </div>
-        <h3 class="feature-title">LINK YOUR FAVORITE WORKOUTS</h3>
+        <h3 class="feature-title">Reads reps from your videos</h3>
         <p class="feature-description">
-          Easily connect your favorite YouTube workout videos directly within TrainLink. Create custom routines 
-          from any fitness creator you follow. Play videos seamlessly in-app without ever leaving your workout dashboard.
-        </p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-            <line x1="16" y1="2" x2="16" y2="6"/>
-            <line x1="8" y1="2" x2="8" y2="6"/>
-            <line x1="3" y1="10" x2="21" y2="10"/>
-            </svg>
-        </div>
-        <h3 class="feature-title">SCHEDULE YOUR WEEK</h3>
-        <p class="feature-description">
-          Plan your home workouts in advance. Schedule that Monday morning yoga, 
-          Wednesday HIIT session, and Friday strength training - never miss a workout again.
+          Paste a YouTube workout and the AI watches it with you in mind. It pulls the
+          exact sets, reps, rest, and moves so you follow the session, not just play the clip.
         </p>
       </div>
       <div class="feature-card">
@@ -131,10 +146,10 @@
             <path d="M18 20V10M12 20V4M6 20v-6"/>
           </svg>
         </div>
-        <h3 class="feature-title">TRACK COMPLETIONS</h3>
+        <h3 class="feature-title">Adapts when you skip</h3>
         <p class="feature-description">
-          Mark workouts as complete and track your consistency. See your streak grow 
-          and stay motivated with your home fitness journey.
+          Missed Wednesday? The plan reshuffles so you still hit your weekly goal.
+          Mark sessions complete and the coach keeps your streak honest.
         </p>
       </div>
     </div>
@@ -145,52 +160,46 @@
 <section id="how-it-works" class="how-it-works">
   <div class="section-container">
     <div class="section-header">
-      <h2 class="section-title">HOW TRAINLINK WORKS</h2>
-      <p class="section-subtitle">Three simple steps to organize your home workout routine</p>
+      <h2 class="section-title">How TrainLink works</h2>
+      <p class="section-subtitle">From a saved list of videos to a week you can actually follow</p>
     </div>
     <div class="steps-container">
       <div class="step">
-        <div class="step-number">1</div>
         <div class="step-content">
-          <h3 class="step-title">SAVE YOUR FAVORITE WORKOUTS</h3>
+          <h3 class="step-title">Tell it your goal</h3>
           <p class="step-description">
-            Browse YouTube and save workouts from your favorite trainers. Copy any YouTube URL 
-            and paste it into TrainLink - we'll automatically grab the video details, duration, 
-            and thumbnail. Build your personal library of go-to home workouts.
+            Strength, fat loss, or just staying consistent. Add how many days you can train,
+            how long each session should be, and what you have at home.
           </p>
         </div>
         <div class="step-image">
-          <img src="assets/workouts.png" alt="Save workouts interface" class="step-img">
+          <img src="assets/workouts.png" alt="Tell TrainLink your workout goal" class="step-img">
         </div>
       </div>
       
       <div class="step">
-        <div class="step-number">2</div>
         <div class="step-content">
-          <h3 class="step-title">SCHEDULE YOUR WEEK</h3>
+          <h3 class="step-title">Get a week with real reps</h3>
           <p class="step-description">
-            Plan your home workouts in advance using our calendar view. Drag and drop your 
-            saved workouts to specific days and times. Set up recurring schedules like 
-            "Yoga Mondays" or "HIIT Fridays" to build consistent habits.
+            TrainLink builds the calendar and reads each video for the work inside it.
+            Rounds, reps, rest, and the moves you will actually do, organized into the week.
           </p>
         </div>
         <div class="step-image">
-          <img src="assets/schedule.png" alt="Schedule workouts calendar" class="step-img">
+          <img src="assets/schedule.png" alt="AI generated weekly workout plan" class="step-img">
         </div>
       </div>
       
       <div class="step">
-        <div class="step-number">3</div>
         <div class="step-content">
-          <h3 class="step-title">WORKOUT & TRACK PROGRESS</h3>
+          <h3 class="step-title">Train, then it replans</h3>
           <p class="step-description">
-            When it's time to workout, just click and go! TrainLink opens your scheduled 
-            YouTube video so you can start immediately. Mark workouts as complete to track 
-            your consistency and build that satisfying streak of home fitness success.
+            Open today's session and go. If you finish or skip, the rest of the week
+            updates so you stay on track without rebuilding the plan yourself.
           </p>
         </div>
         <div class="step-image">
-          <img src="assets/stats.png" alt="Track workout progress and stats" class="step-img">
+          <img src="assets/stats.png" alt="Track progress and let AI replan" class="step-img">
         </div>
       </div>
     </div>
@@ -201,48 +210,48 @@
 <section class="testimonials">
   <div class="section-container">
     <div class="section-header">
-      <h2 class="section-title">WHAT HOME FITNESS ENTHUSIASTS SAY</h2>
-      <p class="section-subtitle">TrainLink helps people stay consistent with their YouTube workout routine</p>
+      <h2 class="section-title">What people say about the coach</h2>
+      <p class="section-subtitle">Home workouts work better when someone, or something, plans the week</p>
     </div>
     <div class="testimonials-grid">
       <div class="testimonial-card">
         <p class="testimonial-text">
-          "Finally! I can keep all my favorite YouTube workouts organized in one place. 
-          No more scrolling through endless channels trying to find that HIIT video I did last week."
+          "I used to save twenty HIIT videos and never know which one to do.
+          TrainLink built a week from my list and even listed the reps from each video."
         </p>
         <div class="testimonial-author">
           <div class="author-avatar">S</div>
           <div class="author-info">
-            <div class="author-name">SARAH M.</div>
-            <div class="author-duration">HOME FITNESS ENTHUSIAST</div>
+            <div class="author-name">Sarah M.</div>
+            <div class="author-duration">Home fitness</div>
           </div>
         </div>
       </div>
       
       <div class="testimonial-card">
         <p class="testimonial-text">
-          "I love having a weekly schedule for my home workouts. TrainLink makes it so easy 
-          to plan Yoga Mondays and HIIT Wednesdays with my favorite YouTube trainers."
+          "I tell it I have 25 minutes and a pair of dumbbells. Monday through Friday
+          is already filled in when I open the app. That is the whole product for me."
         </p>
         <div class="testimonial-author">
           <div class="author-avatar">M</div>
           <div class="author-info">
-            <div class="author-name">MIKE T.</div>
-            <div class="author-duration">WORKING FROM HOME</div>
+            <div class="author-name">Mike T.</div>
+            <div class="author-duration">Works from home</div>
           </div>
         </div>
       </div>
       
       <div class="testimonial-card">
         <p class="testimonial-text">
-          "As a busy mom, I need my workouts to be quick and accessible. TrainLink has all 
-          my 15-minute videos ready to go - perfect for home fitness during nap time!"
+          "If I miss a session during nap time, it moves things around instead of
+          making me feel behind. I just follow the next block it gives me."
         </p>
         <div class="testimonial-author">
           <div class="author-avatar">A</div>
           <div class="author-info">
-            <div class="author-name">ALEX R.</div>
-            <div class="author-duration">BUSY PARENT</div>
+            <div class="author-name">Alex R.</div>
+            <div class="author-duration">Busy parent</div>
           </div>
         </div>
       </div>
@@ -253,9 +262,9 @@
 <!-- CTA Section -->
 <section class="cta-section">
   <div class="cta-container">
-    <h2 class="cta-title">READY TO ORGANIZE YOUR HOME WORKOUTS?</h2>
-    <p class="cta-subtitle">Stop losing track of your favorite YouTube fitness videos. Start building your organized workout collection today.</p>
-    <a routerLink="/signup" class="cta-button-large">START ORGANIZING FOR FREE</a>
+    <h2 class="cta-title">Ready for a week that is already planned?</h2>
+    <p class="cta-subtitle">Stop picking a random YouTube video every morning. Let TrainLink organize the week and pull the work out of each session.</p>
+    <a routerLink="/signup" class="cta-button-large">Start your free AI plan</a>
   </div>
 </section>
 
@@ -264,12 +273,10 @@
   <div class="footer-container">
     <div class="footer-brand">
       <img src="assets/trainlink-logo.png" alt="TrainLink Logo" class="logo-image">
-      <span class="logo-text">TRAINLINK</span>
+      <span class="logo-text">TrainLink</span>
     </div>
-    <!-- Removed footer-links section as requested -->
   </div>
   <div class="footer-bottom">
-    
-    <p>&copy; 2025 TRAINLINK. ALL RIGHTS RESERVED.</p>
+    <p>&copy; 2026 TrainLink. All rights reserved.</p>
   </div>
 </footer>

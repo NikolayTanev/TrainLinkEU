@@ -9,6 +9,13 @@ $text-muted: #8892b0;
 // Typography
 $font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
+@mixin glass-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
 
 
 // Note: Inherits global body styles from app component
@@ -31,16 +38,27 @@ $font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sa
 .hero {
   background: $dark-bg;
   color: $text-light;
-  padding: 120px 0 60px;
+  padding: 128px 0 72px;
   position: relative;
   overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    right: -8%;
+    top: 12%;
+    width: 560px;
+    height: 560px;
+    background: radial-gradient(circle, rgba(255, 107, 53, 0.16) 0%, transparent 68%);
+    pointer-events: none;
+  }
 
   .container {
     position: relative;
     z-index: 1;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
+    grid-template-columns: 1fr 1.05fr;
+    gap: 64px;
     align-items: center;
     max-width: 1200px;
     margin: 0 auto;
@@ -48,14 +66,27 @@ $font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sa
   }
 
   .hero-content {
-    padding-right: 20px;
+    padding-right: 12px;
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 16px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      @include glass-card;
+      color: $text-light;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
     
     h1 {
       font-size: 3.2rem;
-      font-weight: 800;
-      margin-bottom: 24px;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
+      font-weight: 700;
+      margin-bottom: 20px;
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+      word-spacing: 0.06em;
       color: $text-light;
 
       .highlight {
@@ -64,10 +95,19 @@ $font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sa
     }
 
     .subtitle {
-      font-size: 1.2rem;
-      margin-bottom: 32px;
-      line-height: 1.6;
+      font-size: 1.1rem;
+      margin-bottom: 28px;
+      line-height: 1.55;
       color: $text-muted;
+      max-width: 440px;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
     }
 
     .cta-button {
@@ -86,17 +126,57 @@ $font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sa
         box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
       }
     }
+
+    .cta-secondary {
+      color: $text-light;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.24);
+
+      &:hover {
+        color: $accent-blue;
+        border-bottom-color: $accent-blue;
+      }
+    }
+
+    .hero-points {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      color: $text-muted;
+      font-size: 0.92rem;
+
+      li {
+        position: relative;
+        padding-left: 16px;
+
+        &::before {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 0.55em;
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: $accent-blue;
+        }
+      }
+    }
   }
 
   .hero-image {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding-left: 20px;
+    padding-left: 12px;
   }
 
   @media (max-width: 768px) {
-    padding: 100px 0 40px;
+    padding: 108px 0 48px;
     
     .container {
       grid-template-columns: 1fr;
@@ -110,6 +190,21 @@ $font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sa
       h1 {
         font-size: 2.4rem;
       }
+
+      .subtitle {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .hero-actions {
+        justify-content: center;
+      }
+
+      .hero-points {
+        display: inline-block;
+        text-align: left;
+        margin: 0 auto;
+      }
     }
 
     .hero-image {
@@ -119,34 +214,106 @@ $font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sa
 }
 
 // App Mockup
+.hero-visual {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 28px 12px 20px;
+}
+
+.prompt-card,
+.read-card {
+  @include glass-card;
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+}
+
+.prompt-card {
+  top: 0;
+  left: -8px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+
+  .prompt-label {
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: $accent-blue;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: $text-light;
+  }
+}
+
+.read-card {
+  left: -8px;
+  bottom: 18px;
+  right: auto;
+
+  .read-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: $accent-blue;
+    flex-shrink: 0;
+  }
+
+  .read-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: $text-light;
+  }
+
+  .read-meta {
+    font-size: 0.72rem;
+    color: $text-muted;
+  }
+}
+
 .app-mockup {
-  background: $dark-card;
-  border: 1px solid $dark-border;
+  @include glass-card;
   border-radius: 20px;
   padding: 24px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-  max-width: 360px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
+  max-width: 380px;
   margin: 0 auto;
   position: relative;
-  overflow: hidden;
-  transform: perspective(1000px) rotateY(-8deg) rotateX(2deg);
+  z-index: 1;
 
   .mockup-header {
-    text-align: center;
-    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
     padding-bottom: 12px;
-    border-bottom: 1px solid $dark-border;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 
     .mockup-title {
-      font-size: 1.3rem;
+      font-size: 1.15rem;
       font-weight: 700;
       color: $text-light;
-      margin-bottom: 4px;
     }
 
-    .mockup-subtitle {
-      font-size: 0.85rem;
-      color: $text-muted;
+    .streak-badge {
+      background: $accent-blue;
+      color: $dark-bg;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      font-weight: 600;
     }
   }
 
@@ -157,32 +324,23 @@ $font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sa
       position: relative;
       background: $accent-blue;
       border-radius: 12px;
-      height: 100px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      height: 118px;
       overflow: hidden;
 
       .play-overlay {
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.2);
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        top: 12px;
+        left: 12px;
 
         .play-btn {
           background: $text-light;
           border-radius: 50%;
-          width: 36px;
-          height: 36px;
+          width: 32px;
+          height: 32px;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 1rem;
+          font-size: 0.85rem;
           color: $dark-bg;
         }
       }
@@ -210,28 +368,6 @@ $font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sa
 
   .quick-schedule {
     margin-bottom: 20px;
-
-    .schedule-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-
-      span {
-        font-size: 0.9rem;
-        font-weight: 600;
-        color: $text-light;
-      }
-
-      .streak-badge {
-        background: $accent-blue;
-        color: $dark-bg;
-        padding: 4px 8px;
-        border-radius: 12px;
-        font-size: 0.7rem;
-        font-weight: 600;
-      }
-    }
 
     .week-calendar {
       display: grid;
@@ -294,8 +430,7 @@ $font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sa
         gap: 10px;
         padding: 10px 12px;
         border-radius: 12px;
-        background: $dark-bg;
-        border: 1px solid $dark-border;
+        @include glass-card;
 
         .trainer-avatar {
           width: 32px;
@@ -330,6 +465,23 @@ $font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sa
   }
 }
 
+@media (max-width: 768px) {
+  .hero-visual {
+    padding: 20px 0 12px;
+  }
+
+  .prompt-card,
+  .read-card {
+    position: static;
+    margin: 0 auto 12px;
+    width: fit-content;
+  }
+
+  .read-card {
+    margin-top: 12px;
+  }
+}
+
 // Common Section Styles
 .section-container {
   max-width: 1200px;
@@ -343,10 +495,11 @@ $font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sa
 
   .section-title {
     font-size: 2.5rem;
-    font-weight: 800;
+    font-weight: 700;
     color: $text-light;
     margin-bottom: 1.5rem;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.01em;
+    word-spacing: 0.06em;
   }
 
   .section-subtitle {
@@ -363,6 +516,26 @@ $font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sa
   background: $dark-bg;
   padding: 60px 0;
   color: $text-light;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 62%;
+    width: 920px;
+    height: 380px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(ellipse, rgba(255, 107, 53, 0.14) 0%, transparent 72%);
+    pointer-events: none;
+  }
+
+  .section-container,
+  .features-grid {
+    position: relative;
+    z-index: 1;
+  }
 
   .features-grid {
     display: grid;
@@ -372,16 +545,26 @@ $font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sa
     gap: 2rem;
 
     .feature-card {
-      background: $dark-card;
-      border: 1px solid $dark-border;
+      @include glass-card;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       padding: 2.5rem 2rem;
       border-radius: 20px;
       text-align: center;
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        0 16px 40px rgba(0, 0, 0, 0.28);
 
       .feature-icon {
-        font-size: 1.5rem;
+        width: 44px;
+        height: 44px;
+        margin: 0 auto 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        @include glass-card;
         color: $accent-blue;
-        margin-bottom: 1rem;
         
         svg {
           width: 1.5rem;
@@ -391,9 +574,10 @@ $font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sa
 
       .feature-title {
         font-size: 1.1rem;
-        font-weight: 600;
+        font-weight: 700;
         margin-bottom: 0.75rem;
         color: $text-light;
+        word-spacing: 0.04em;
       }
 
       .feature-description {
@@ -423,10 +607,11 @@ $font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sa
     .video-text {
       .section-title {
         font-size: 2.5rem;
-        font-weight: 800;
+        font-weight: 700;
         color: $text-light;
         margin-bottom: 1.5rem;
-        letter-spacing: -0.02em;
+        letter-spacing: -0.01em;
+        word-spacing: 0.06em;
       }
 
       .section-description {
@@ -559,31 +744,10 @@ $font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sa
 
     .step {
       display: grid;
-      grid-template-columns: auto 1fr auto;
-      gap: 40px;
+      grid-template-columns: 1fr auto;
+      gap: 48px;
       align-items: center;
       padding: 2rem 0;
-
-      .step-number {
-        background: $accent-blue;
-        color: $dark-bg;
-        width: 70px;
-        height: 70px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.75rem;
-        font-weight: 800;
-        flex-shrink: 0;
-        box-shadow: 0 4px 16px rgba(255, 107, 53, 0.3);
-        transition: all 0.3s ease;
-
-        &:hover {
-          transform: scale(1.05);
-          box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
-        }
-      }
 
       .step-content {
         max-width: 480px;
@@ -595,6 +759,7 @@ $font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sa
           color: $text-light;
           margin-bottom: 1.2rem;
           letter-spacing: -0.01em;
+          word-spacing: 0.04em;
           line-height: 1.2;
         }
 
@@ -624,13 +789,6 @@ $font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sa
         gap: 24px;
         text-align: center;
         padding: 1.5rem 0;
-
-        .step-number {
-          margin: 0 auto;
-          width: 60px;
-          height: 60px;
-          font-size: 1.5rem;
-        }
 
         .step-content {
           padding-right: 0;
@@ -668,8 +826,7 @@ $font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sa
     margin-top: 3rem;
 
     .testimonial-card {
-      background: $dark-bg;
-      border: 1px solid $dark-border;
+      @include glass-card;
       padding: 2rem;
       border-radius: 16px;
 
@@ -732,10 +889,11 @@ $font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sa
 
     .cta-title {
       font-size: 2.5rem;
-      font-weight: 800;
+      font-weight: 700;
       color: $text-light;
       margin-bottom: 1.5rem;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.01em;
+      word-spacing: 0.06em;
     }
 
     .cta-subtitle {
@@ -755,8 +913,8 @@ $font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sa
       font-size: 1.1rem;
       display: inline-block;
       transition: all 0.3s ease;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.01em;
+      word-spacing: 0.04em;
 
       &:hover {
         transform: translateY(-2px);

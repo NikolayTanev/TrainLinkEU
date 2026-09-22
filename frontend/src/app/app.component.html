@@ -4,19 +4,19 @@
     <div class="nav-logo">
       <a routerLink="/home" class="logo-link">
         <img src="assets/trainlink-logo.png" alt="TrainLink Logo" class="logo-image">
-        <span class="logo-text">TRAINLINK</span>
+        <span class="logo-text">TrainLink</span>
       </a>
     </div>
     
     <!-- Show different navigation based on auth state -->
     <div *ngIf="!currentUser" class="nav-links">
-      <a href="#features" class="nav-link">FEATURES</a>
-      <a href="#how-it-works" class="nav-link">HOW IT WORKS</a>
+      <a routerLink="/home" fragment="features" class="nav-link">Features</a>
+      <a routerLink="/home" fragment="how-it-works" class="nav-link">How it works</a>
     </div>
     
     <div *ngIf="!currentUser" class="auth-buttons">
-      <a routerLink="/signin" class="signin-btn">SIGN IN</a>
-      <a routerLink="/signup" class="signup-btn">SIGN UP</a>
+      <a routerLink="/signin" class="signin-btn">Sign in</a>
+      <a routerLink="/signup" class="signup-btn">Sign up</a>
     </div>
 
     <!-- Show user info and actions when authenticated -->
